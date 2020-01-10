@@ -1,0 +1,569 @@
+/**/library Jison;/**/
+/* Jison generated parser */
+// ignore_for_file: undefined_identifier, undefined_class, directive_after_declaration
+// ignore_for_file: return_of_invalid_type, argument_type_not_assignable, non_bool_condition
+// ignore_for_file: non_bool_operand, variable_type_mismatch, switch_expression_not_assignable
+// ignore_for_file: unused_import, annotate_overrides, unused_local_variable, camel_case_types
+
+import 'dart:math' as math;
+import 'dart:collection';
+import 'package:jison2dart/jison2dart';
+
+/**/Extra Dart/**/
+
+/**use**/
+/**/class Parser/**/ extends GrammarParser {
+    Map symbols = {};
+    Map terminals = {};
+    Map productions = {};
+    Map table = {};
+    Map defaultActions = {};
+    String version = '0.4.17';
+    bool debug = false;
+    int none = 0;
+    int shift = 1;
+    int reduce = 2;
+    int accept = 3;
+    bool backtrack;
+    InjectMatch getMatch;
+    Map data = {};
+
+    //@@OPTIONS_INJECT@@
+
+    //@@PARSER_MODULE_INJECTION@@
+
+    void trace() {
+    }
+
+    /**/Parser/**/() {
+        //Setup Parser
+        //@@PARSER_INJECT@@
+
+        //Setup Lexer
+        //@@LEXER_INJECT@@
+    }
+    parserPerformAction($thisS, $yy, int $yystate, $s, $o) {
+        //@@ParserPerformActionInjection@@
+    }
+
+    ParserSymbol parserLex() {
+        var token = lexerLex(); // $end = 1
+
+        if (token != null) {
+            if (token is num) {
+                if (symbols[token] != null) {
+                    return symbols[token] as ParserSymbol;
+                }
+            }
+        }
+
+        return symbols['end'] as ParserSymbol;
+    }
+
+    void parseError(String $str, ParserError $hash) {
+        $hash.errStr = $str;
+        throw $hash;
+    }
+
+    void lexerError(String $str, LexerError $hash) {
+        $hash.errStr = $str;
+        throw $hash;
+    }
+
+    parse(String $input) {
+        if (table.isEmpty) {
+            throw new Exception('Empty Table');
+        }
+        eof = new ParserSymbol('Eof', 1);
+        var $firstAction = new ParserAction(0, table[0] as ParserState);
+        var $firstCachedAction = new ParserCachedAction($firstAction);
+        var $stack = [$firstCachedAction];
+        var $vstack = <dynamic>[null];
+        var $yy;
+        ParserValue $_yy;
+        var $recovering = 0;
+        ParserSymbol $symbol;
+        var $action;
+        String $errStr = '';
+        var $preErrorSymbol;
+
+        setInput($input);
+
+        while (true) {
+            // retrieve state number from top of stack
+           var  $state = $stack[$stack.length - 1].action.state;
+            // use default actions if available
+            if ($state != null && defaultActions[$state.index] != null) {
+                $action = defaultActions[$state.index];
+            } else {
+                if ($symbol == null) {
+                    $symbol = parserLex();
+                }
+                // read action for current state and first input
+                if ($state != null && $state.actions[$symbol.index] != null) {
+                    //$action = table[$state][$symbol];
+                    $action = $state.actions[$symbol.index];
+                } else {
+                    $action = null;
+                }
+            }
+
+            if ($action == null) {
+                if ($recovering == 0) {
+                    // Report error
+                    var $expected = <String>[];
+                    table[$state.index].actions.forEach(($k, $v) {
+                        if (terminals[$k] != null && $k as num > 2) {
+                            $expected.add(terminals[$k].name as String);
+                        }
+                    });
+
+                    $errStr = 'Parse error on line ${yy.lineNo + 1}:\n${showPosition()} \nExpecting  \'${$expected.join('\', \'')}\', got \''
+                        '${terminals[$symbol.index] != null ? terminals[$symbol.index].name : 'NOTHING'}\'';
+
+
+                    parseError($errStr, new ParserError(match as String, $state, $symbol, yy.lineNo, yy.loc, $expected));
+                }
+            }
+
+            if ($state == null || $action == null) {
+                break;
+            }
+
+            switch ($action.action as int) {
+                case 1:
+                    // shift
+                    //shiftCount++;
+                    $stack.add(new ParserCachedAction($action, $symbol));
+
+                    $vstack.add(yy.text);
+
+                    $symbol = null;
+                    if ($preErrorSymbol == null) { // normal execution/no error
+                        $yy = yy.clone();
+                        if ($recovering > 0) $recovering--;
+                    } else { // error just occurred, resume old look ahead f/ before error
+                        $symbol = $preErrorSymbol as ParserSymbol;
+                        $preErrorSymbol = null;
+                    }
+                    break;
+
+                case 2:
+                    // reduce
+                    var $len = productions[$action.state.index].len;
+                    // perform semantic action
+                    $_yy = new ParserValue();
+                    $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - ($len as int)];// default to $S = $1
+                    // default location, uses first token for firsts, last for lasts
+                    // ignore: undefined_identifier
+                    if (options['ranges'] == true) {
+                        //TODO: add ranges
+                        throw new UnimplementedError('Not supported in dart version');
+                    }
+
+                    yy.yystate = $action.state.index as int;
+                    var $r = parserPerformAction($_yy, $yy, $action.state.index, $vstack, $vstack.length - 1);
+
+                    if ($r != null) {
+                        if ($r is ParserValue) return $r.$;
+                        return $r;
+                    }
+
+                    // pop off stack
+                    while ($len as int > 0) {
+                        $len--;
+
+                        $stack.removeLast();
+
+                        $vstack.removeLast();
+                    }
+
+                    if ($_yy == null) {
+                        $vstack.add(null);
+                    } else {
+                        $vstack.add($_yy.$);
+                    }
+
+                    var $nextSymbol = productions[$action.state.index].symbol;
+                    // goto new state = table[STATE][NONTERMINAL]
+                    var $nextState = $stack[$stack.length - 1].action.state;
+                    var $nextAction = $nextState.actions[$nextSymbol.index];
+
+                    $stack.add(new ParserCachedAction($nextAction, $nextSymbol));
+
+
+                    yy.stack = $stack;
+                    yy.vstack = $vstack;
+                    break;
+
+                case 3:
+                    // accept
+                    return true;
+            }
+
+        }
+
+        return true;
+    }
+
+
+    /* Jison generated lexer */
+    ParserSymbol eof;
+    ParserValue yy;
+    dynamic match = '';
+    String matched = '';
+    List conditionStack = [];
+    Map<int, dynamic> rules = {};
+    Map<String, LexerConditions> conditions = {};
+    bool done = false;
+    bool _more;
+    String _input;
+    int offset;
+    dynamic ranges;
+    bool flex = false;
+
+    void setInput(String $input) {
+        _input = $input;
+        _more = this.backtrack = done = false;
+        matched = match = '';
+        yy = new ParserValue();
+        conditionStack = ['INITIAL'];
+        // ignore: undefined_identifier
+        if (options['ranges'] == true) {
+            var loc = yy.loc = new ParserLocation();
+            loc.Range(new ParserRange(0, 0));
+        } else {
+            yy.loc = new ParserLocation();
+        }
+        offset = 0;
+    }
+
+    String input() {
+        var ch = _input[0];
+        yy.text += ch;
+        yy.leng++;
+        offset++;
+        match += ch;
+        matched += ch;
+        RegExp regex = new RegExp(r'(?:\r\n?|\n).*');
+        Iterable<Match> lines = regex.allMatches(ch);
+        if (lines.length > 0) {
+            yy.lineNo++;
+            yy.loc.lastLine++;
+        } else {
+            yy.loc.lastColumn++;
+        }
+        // ignore: undefined_identifier
+        if (options['ranges'] == true) {
+            yy.loc.range.y++;
+        }
+
+        _input = _input.substring(1);
+        return ch;
+    }
+
+    unput(String $ch) {
+        var len = $ch.length;
+        var lines = $ch.split(new RegExp(r'(?:\r\n?|\n)'));
+        var linesCount = lines.length;
+
+        _input = $ch + _input;
+        yy.text = yy.text.substring(0, len - 1);
+        //yylen -= $len;
+        offset -= len;
+        var oldLines = match.split(new RegExp(r'(?:\r\n?|\n)'));
+        var oldLinesCount = oldLines.length;
+        match = match.substring(0, match.length - 1);
+        matched = matched.substring(0, matched.length - 1);
+
+        if ((linesCount - 1) > 0) yy.lineNo -= linesCount - 1;
+        var r = yy.loc.range;
+        var oldLinesLength = (oldLines[oldLinesCount - linesCount]) != null ?
+            oldLines[oldLinesCount - linesCount].length : 0;
+
+        yy.loc = new ParserLocation(
+            yy.loc.firstLine,
+            yy.lineNo,
+            yy.loc.firstColumn,
+            (lines.isEmpty ?
+                (linesCount == oldLinesCount ? yy.loc.firstColumn : 0) + (oldLinesLength as int):
+                yy.loc.firstColumn - len)
+        );
+        // ignore: undefined_identifier
+        if (options['ranges'] == true) {
+            yy.loc.range = new ParserRange(r.x, r.x + yy.leng - len);
+        }
+    }
+
+    void more() {
+        _more = true;
+    }
+    void reject() {
+        // ignore: undefined_identifier
+        if (options['backtrack_lexer'] == true) {
+            this.backtrack = true;
+        } else {
+            lexerError('Lexical error on line ${yy.lineNo + 1}. '
+            'You can only invoke reject() in the lexer when the lexer'
+            'is of the backtracking persuasion (options.backtrack_lexer = true).\n'
+                + showPosition(), new LexerError('', -1, yy.lineNo));
+        }
+    }
+
+    void less(int n) {
+        this.unput((this.match as String).substring(n));
+    }
+
+    String pastInput() {
+        var past = matched.substring(0, (matched.length - (match as String).length));
+        return (past.length > 20 ? '...' : '') + past.replaceAll('\n', '');
+    }
+
+    String upcomingInput() {
+        var next = match as String;
+        if (next.length < 20) {
+            next += _input.substring(0, math.min(20 - next.length, _input.length));
+        }
+        return (next.substring(0, math.min(20, next.length)) + (next.length > 20 ? '...' : '')).replaceAll('\n', '');
+    }
+
+    String showPosition() {
+        var pre = pastInput();
+
+        var c = '';
+        for(var i = 0, $preLength = pre.length; i < $preLength; i++) {
+            c += '-';
+        }
+        return '$pre${upcomingInput()}\n$c^';
+    }
+
+    next() {
+        if (done == true) {
+            return eof;
+        }
+
+        if (_input.isEmpty) {
+            done = true;
+        }
+
+        if (!_more) {
+            yy.text = '';
+            match = '';
+        }
+
+        var $rules = currentRules();
+        int $index;
+        Match $match;
+        var $token;
+        for (var $i = 0, $j = $rules.length as int; $i < $j; $i++) {
+            Match $tempMatch;
+            final rule = rules[$rules[$i]];
+            if (rule is InjectFunction) {
+              $tempMatch = unsafeCast(rule(this, _input));
+            } else {
+                $tempMatch = (rule as RegExp).firstMatch(_input);
+            }
+            if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0).length > $match.group(0).length)) {
+                $match = $tempMatch;
+                $index = $i;
+                // ignore: undefined_identifier
+                if (options['backtrack_lexer'] == true) {
+                    $token = testMatch($tempMatch, $rules[$i] as int);
+                    if ($token != false) {
+                        return $token;
+                    } else if (this.backtrack) {
+                        $match = null;
+                        continue; // rule action called reject() implying a rule MISmatch.
+                    } else {
+                        // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
+                        return false;
+                    }
+                // ignore: undefined_identifier
+                } else if (options['flex'] != true) {
+                    break;
+                }
+            }
+        }
+        if ($match != null) {
+            $token = testMatch($match, $rules[$index] as int);
+            if ($token != false) {
+                return $token;
+            }
+            // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
+            return false;
+        }
+
+        if (_input.isEmpty) {
+            return eof;
+        } else {
+            lexerError('Lexical error on line ${yy.lineNo + 1}. Unrecognized text.\n' + showPosition(), new LexerError('', -1, yy.lineNo));
+            return null;
+        }
+    }
+
+    // test the lexed token: return FALSE when not a match, otherwise return token
+    testMatch(Match $match, int $ruleIndex) {
+        Map<String, dynamic> backup;
+        // ignore: undefined_identifier
+        if (options['backtrack_lexer'] == true) {
+            // save context
+            backup = {
+                'yy': this.yy.clone(),
+                'match': this.match,
+                'matched': this.matched,
+                'offset': this.offset,
+                '_more': this._more,
+                '_input': this._input,
+                'conditionStack': this.conditionStack.toList(),
+                'done': this.done
+            };
+        }
+        int $matchCount = $match.group(0).length;
+        var $lineCount = new RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0));
+        var $line = $lineCount != null ? $lineCount.group(0) : '';
+        yy.lineNo += $lineCount != null ? $lineCount.groupCount : 0;
+
+        yy.loc = new ParserLocation(
+            yy.loc.lastLine,
+            yy.lineNo + 1,
+            yy.loc.lastColumn,
+            ($lineCount != null && $lineCount.groupCount > 0 ?
+            $line.length - new RegExp(r'\r?\n?').firstMatch($line).groupCount :
+            yy.loc.lastColumn + $matchCount
+            )
+        );
+
+
+        yy.text += $match[0];
+        match += $match[0];
+//            matches = $match;
+        matched += $match[0];
+
+        yy.leng = yy.text.length as int;
+        if (ranges != null) {
+            yy.loc.range = new ParserRange(offset, offset += yy.leng);
+        }
+        _more = false;
+        backtrack = false;
+        _input = _input.substring($matchCount);
+        var $nextCondition = conditionStack[conditionStack.length - 1];
+
+        var $token = LexerPerformAction(yy, $ruleIndex, $nextCondition);
+
+        if (done == true && _input.isNotEmpty) {
+            done = false;
+        }
+        try {
+            if ($token != null) {
+                return $token;
+            } else if (this.backtrack) {
+                backup.forEach((k, v) {
+                    switch (k) {
+                        case 'yy':
+                            this.yy = v as ParserValue;
+                            break;
+                        case 'match':
+                            this.match = v;
+                            break;
+                        case 'matched':
+                            this.matched = v as String;
+                            break;
+                        case 'offset':
+                            this.offset = v as int;
+                            break;
+                        case '_more':
+                            this._more = v as bool;
+                            break;
+                        case '_input':
+                            this._input = v as String;
+                            break;
+                        case 'conditionStack':
+                            this.conditionStack = v as List;
+                            break;
+                        case 'done':
+                            this.done = v as bool;
+                            break;
+                        default:
+                            throw new UnsupportedError('Key is unknown [$k]');
+                    }
+                });
+                return false; // rule action called reject() implying the next rule should be tested instead.
+            } else {
+                return false;
+            }
+        } finally { // extra feature
+            if (data['backtrack'] == true) {
+                backup.forEach((k, v) {
+                    switch (k) {
+                        case 'yy':
+                            this.yy = v as ParserValue;
+                            break;
+                        case 'match':
+                            this.match = v;
+                            break;
+                        case 'matched':
+                            this.matched = v as String;
+                            break;
+                        case 'offset':
+                            this.offset = v as int;
+                            break;
+                        case '_more':
+                            this._more = v as bool;
+                            break;
+                        case '_input':
+                            this._input = v as String;
+                            break;
+                        case 'conditionStack':
+                            this.conditionStack = v as List;
+                            break;
+                        case 'done':
+                            this.done = v as bool;
+                            break;
+                        default:
+                            throw new UnsupportedError('Key is unknown [$k]');
+                    }
+                });
+                popState();
+                data['backtrack'] = false;
+            }
+        }
+    }
+    lexerLex() {
+        var $r = next();
+
+        while (($r == null || $r == false) && !done) {
+            $r = next();
+        }
+
+        return $r;
+    }
+
+    begin($condition) {
+        conditionStack.add($condition);
+    }
+
+    popState() {
+        var n = conditionStack.length - 1;
+        if (n > 0) {
+            return conditionStack.removeLast();
+        }
+        return conditionStack[0];
+    }
+
+    void pushState($condition) {
+        this.begin($condition);
+    }
+
+    currentRules() {
+        if (this.conditionStack.length > 0 && this.conditionStack[this.conditionStack.length - 1] != null) {
+            return this.conditions[this.conditionStack[this.conditionStack.length - 1]].rules;
+        } else {
+            return this.conditions["INITIAL"].rules;
+        }
+    }
+
+    // ignore: avoid_init_to_null
+    LexerPerformAction(yy, int $avoidingNameCollisions, [$YY_START = null]) {
+        //@@LexerPerformActionInjection@@
+    }
+}

@@ -1,0 +1,16 @@
+name: jison2dart
+version: 0.1.0
+description: > 
+  Generate Dart parsers using Jison
+authors:
+- Jumper Chen <jumperchen@zkoss.org>
+- Tom Yeh <tomyeh@rikulo.org>
+homepage: https://github.com/rikulo/jison2dart
+
+dependencies:
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dev_dependencies:
+  test: any

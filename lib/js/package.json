@@ -1,0 +1,10 @@
+{
+  "author": "Jumper Chen <jumperchen@zkoss.org> (https://keikai.io)",
+  "contributors": ["Tom Yeh <tomyeh@rikulo.org> (https://quire.io)"],
+  "name": "jison2dart",
+  "version": "0.1.0",
+  "description": "Generate Bison-based parser in Dart via Jison",
+  "dependencies": {
+    "jison": "^0.4.18"
+  }
+}
