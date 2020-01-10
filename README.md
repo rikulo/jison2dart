@@ -42,13 +42,35 @@ print(new Caculator().parse("2 * 3"));
 ```
 
 
-## Special Extension
+## Special Extensions
 
-If you'd like to import other libraries or embed Dart codes, you can use `%code {` and `}`.
+### `%library`
+
+Optional. Generates the library statement in the Dart pasrer.
+
+```
+%library my.lib
+```
+
+### `%class`
+
+Optional. Specfies the name of the Dart pasrer.
+
+```
+%class CalcParser
+```
+
+### `%code`
+
+If you'd like to import other libraries or embed Dart codes, you can put the code between `%code` and `%%`.
 
 ```
 %code
   import "super/foo.dart";
+
+  String camelize(String text) {
+    ...
+  }
 %%
 ```
 
