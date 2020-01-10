@@ -7,12 +7,12 @@
 
 import 'dart:math' as math;
 import 'dart:collection';
-import 'package:jison2dart/jison2dart';
+import 'package:jison2dart/jison2dart.dart';
 
-/**/Extra Dart/**/
+/**/code;/**/
 
 /**use**/
-/**/class Parser/**/ extends GrammarParser {
+/**/class Parser/**/ extends JisonParser {
     Map symbols = {};
     Map terminals = {};
     Map productions = {};

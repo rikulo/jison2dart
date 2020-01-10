@@ -20,5 +20,7 @@ doc/api/
 *.js.deps
 *.js.map
 
+.DS_Store
 node_modules/
 package-lock.json
+calculator.dart
