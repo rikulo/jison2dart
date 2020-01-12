@@ -50,6 +50,6 @@ e
     | '(' e ')'
         {$$ = $2;}
     | NUMBER
-        {$$ = num.parse(yytext);}
+        {$$ = num.parse($yytext);}
     ;
 

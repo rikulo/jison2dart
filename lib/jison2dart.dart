@@ -15,6 +15,8 @@ library jison2dart;
 typedef Match InjectMatch(String key, String input);
 typedef InjectFunction(self, input);
 
+S cast<S>(value) => value as S;
+
 abstract class JisonParser {
   parse(String input);
 }

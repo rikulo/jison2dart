@@ -11,7 +11,6 @@ import 'package:jison2dart/jison2dart.dart';
 
 
 
-
 class Calculator extends JisonParser {
     Map symbols = {};
     Map terminals = {};
@@ -420,7 +419,7 @@ case 8:
 $thisS.$ = $s[$o-1];
 break;
 case 9:
-$thisS.$ = num.parse$thisS.text);
+$thisS.$ = num.parse($thisS.text);
 break;
 }
 
@@ -739,7 +738,7 @@ break;
             Match $tempMatch;
             final rule = rules[$rules[$i]];
             if (rule is InjectFunction) {
-              $tempMatch = unsafeCast(rule(this, _input));
+              $tempMatch = cast(rule(this, _input));
             } else {
                 $tempMatch = (rule as RegExp).firstMatch(_input);
             }
