@@ -368,17 +368,17 @@ var			defaultActions = {
         
 			rules = {
 				
-					0: new RegExp(r'''^(?:\s+''', caseSensitive: true),
-					1: new RegExp(r'''^(?:[0-9]+(\.[0-9]+)?\b''', caseSensitive: true),
-					2: new RegExp(r'''^(?:\*''', caseSensitive: true),
-					3: new RegExp(r'''^(?:\/''', caseSensitive: true),
-					4: new RegExp(r'''^(?:-''', caseSensitive: true),
-					5: new RegExp(r'''^(?:\+''', caseSensitive: true),
-					6: new RegExp(r'''^(?:\^''', caseSensitive: true),
-					7: new RegExp(r'''^(?:\(''', caseSensitive: true),
-					8: new RegExp(r'''^(?:\)''', caseSensitive: true),
-					9: new RegExp(r'''^(?:$''', caseSensitive: true),
-					10: new RegExp(r'''^(?:.''', caseSensitive: true)
+					0: new RegExp(r'''^(?:\s+)''', caseSensitive: true),
+					1: new RegExp(r'''^(?:[0-9]+(\.[0-9]+)?\b)''', caseSensitive: true),
+					2: new RegExp(r'''^(?:\*)''', caseSensitive: true),
+					3: new RegExp(r'''^(?:\/)''', caseSensitive: true),
+					4: new RegExp(r'''^(?:-)''', caseSensitive: true),
+					5: new RegExp(r'''^(?:\+)''', caseSensitive: true),
+					6: new RegExp(r'''^(?:\^)''', caseSensitive: true),
+					7: new RegExp(r'''^(?:\()''', caseSensitive: true),
+					8: new RegExp(r'''^(?:\))''', caseSensitive: true),
+					9: new RegExp(r'''^(?:$)''', caseSensitive: true),
+					10: new RegExp(r'''^(?:.)''', caseSensitive: true)
 				};
 
 			conditions = {
@@ -966,7 +966,7 @@ case 8:return 12;
 break;
 case 9:return 5;
 break;
-case 10:return 'INVALID'
+case 10:return 'INVALID';
 break;
 }
 
