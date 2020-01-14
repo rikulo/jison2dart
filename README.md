@@ -62,7 +62,7 @@ Optional. Specfies the name of the Dart pasrer.
 
 ### `%code`
 
-If you'd like to import other libraries or embed Dart codes, you can put the code between `%code` and `%%`.
+Optional. If you'd like to import other libraries or embed Dart codes, you can put the code between `%code` and `%%`.
 
 ```
 %code
