@@ -1,7 +1,7 @@
 /* description: Parses and executes mathematical expressions. */
 
-/* test code */
-%code
+/* test code in Dart */
+%{
 import "dart:math";
 import "package:test/test.dart";
 
@@ -11,7 +11,7 @@ void main() {
         expect(calc.parse("3 + 5 * 2"), 13);
     });
 }
-%%
+%}
 
 /* lexical grammar */
 %lex

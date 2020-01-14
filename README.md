@@ -1,6 +1,6 @@
 # jison2dart
 
-Generate Dart parsers using [Jison](https://github.com/zaach/jison).
+Generate Dart parsers using [Jison](https://github.com/zaach/jison) - [Bison](https://www.gnu.org/software/bison/) in JavaScript.
 
 ## Getting Started
 
