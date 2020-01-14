@@ -2,7 +2,6 @@
 
 /* test code in Dart */
 %{
-import "dart:math";
 import "package:test/test.dart";
 
 void main() {

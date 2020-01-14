@@ -13,12 +13,12 @@
 library jison2dart;
 
 typedef Match InjectMatch(String key, String input);
-typedef InjectFunction(self, input);
+typedef T InjectFunction<T>(JisonParser self, String input);
 
 S cast<S>(value) => value as S;
 
 abstract class JisonParser {
-  parse(String input);
+  dynamic parse(String input);
 }
 
 class ParserLocation {

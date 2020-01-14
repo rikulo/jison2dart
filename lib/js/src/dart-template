@@ -68,7 +68,7 @@ import 'package:jison2dart/jison2dart.dart';
         throw $hash;
     }
 
-    parse(String $input) {
+    dynamic parse(String $input) {
         if (table.isEmpty) {
             throw new Exception('Empty Table');
         }
