@@ -1,12 +1,11 @@
 /**/library Jison;/**/
-/* Jison generated parser */
-// ignore_for_file: undefined_identifier, undefined_class, directive_after_declaration
+/* Jison2dart generated parser */
+// ignore_for_file: directive_after_declaration
 // ignore_for_file: return_of_invalid_type, argument_type_not_assignable, non_bool_condition
 // ignore_for_file: non_bool_operand, variable_type_mismatch, switch_expression_not_assignable
-// ignore_for_file: unused_import, annotate_overrides, unused_local_variable, camel_case_types
+// ignore_for_file: annotate_overrides, unused_local_variable, camel_case_types
 
 import 'dart:math' as math;
-import 'dart:collection';
 import 'package:jison2dart/jison2dart.dart';
 
 /**/code;/**/

@@ -60,19 +60,21 @@ Optional. Specfies the name of the Dart pasrer.
 %class CalcParser
 ```
 
-### `%code`
+### The prologue: `%{` and `%}`
 
-Optional. If you'd like to import other libraries or embed Dart codes, you can put the code between `%code` and `%%`.
+Optional. If you'd like to import other libraries or embed Dart codes, you can put the code between `%{` and `%}`.
 
 ```
-%code
+%{
   import "super/foo.dart";
 
   String camelize(String text) {
     ...
   }
-%%
+}%
 ```
+
+> Note: unlike [Bison's prologue](https://www.gnu.org/software/bison/manual/html_node/Prologue.html), you can put at most one prologue.
 
 ## Resources
 
