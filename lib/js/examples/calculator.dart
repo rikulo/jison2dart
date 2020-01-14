@@ -10,6 +10,15 @@ import 'dart:collection';
 import 'package:jison2dart/jison2dart.dart';
 
 
+import "dart:math";
+import "package:test/test.dart";
+
+void main() {
+    final calc = new Calculator();
+    test("Calc", () {
+        expect(calc.parse("3 + 5 * 2"), 13);
+    });
+}
 
 class Calculator extends JisonParser {
     Map symbols = {};
@@ -410,7 +419,7 @@ case 5:
 $thisS.$ = $s[$o-2]/$s[$o];
 break;
 case 6:
-$thisS.$ = Math.pow($s[$o-2], $s[$o]);
+$thisS.$ = math.pow($s[$o-2], $s[$o]);
 break;
 case 7:
 $thisS.$ = -$s[$o];

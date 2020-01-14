@@ -1,5 +1,18 @@
 /* description: Parses and executes mathematical expressions. */
 
+/* test code */
+%code
+import "dart:math";
+import "package:test/test.dart";
+
+void main() {
+    final calc = new Calculator();
+    test("Calc", () {
+        expect(calc.parse("3 + 5 * 2"), 13);
+    });
+}
+%%
+
 /* lexical grammar */
 %lex
 %%
@@ -44,7 +57,7 @@ e
     | e '/' e
         {$$ = $1/$3;}
     | e '^' e
-        {$$ = Math.pow($1, $3);}
+        {$$ = math.pow($1, $3);}
     | '-' e %prec UMINUS
         {$$ = -$2;}
     | '(' e ')'
