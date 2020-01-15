@@ -85,7 +85,7 @@ Optional. If you'd like to import other libraries or embed Dart codes, you can p
 
 ## Resources
 
-* [API Reference](http://www.dartdocs.org/documentation/jison2dart/0.1.1)
+* [API Reference](http://www.dartdocs.org/documentation/jison2dart/0.2.0)
 * [Git Repos](https://github.com/rikulo/jison2dart)
 
 ## Who Uses
