@@ -15,7 +15,8 @@ npm install
 Then, you can compile a Jison file to a Dart parser. For example,
 
 ```
-node bison.js examples/caculator.jison
+cd examples
+node ../jison2dart.js caculator.jison
 ```
 
 For more options, please run
@@ -29,7 +30,7 @@ The Dart file will contain a class depending on the jison filename. For example,
 ```
 class Caculator extends JisonParser {
 
-  parse() {
+  dynamic parse() {
 ...
 ```
 

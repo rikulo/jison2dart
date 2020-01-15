@@ -1,5 +1,6 @@
-/**/library Jison;/**/
-/* Jison2dart generated parser */
+//@@LIBRARY@@
+// Jison2dart generated parser
+
 // ignore_for_file: directive_after_declaration
 // ignore_for_file: return_of_invalid_type, argument_type_not_assignable, non_bool_condition
 // ignore_for_file: non_bool_operand, variable_type_mismatch, switch_expression_not_assignable
@@ -8,9 +9,9 @@
 import 'dart:math' as math;
 import 'package:jison2dart/jison2dart.dart';
 
-/**/code;/**/
+//@@CODE@@
 
-/**/class Parser/**/ extends JisonParser {
+class /*@@CLASS@@*/ extends JisonParser {
     Map symbols = {};
     Map terminals = {};
     Map productions = {};
@@ -33,7 +34,7 @@ import 'package:jison2dart/jison2dart.dart';
     void trace() {
     }
 
-    /**/Parser/**/() {
+    /*@@CLASS@@*/() {
         //Setup Parser
         //@@PARSER_INJECT@@
 
