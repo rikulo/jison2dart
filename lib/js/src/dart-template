@@ -11,7 +11,7 @@ import 'package:jison2dart/jison2dart.dart';
 
 //@@CODE@@
 
-class /*@@CLASS@@*/ extends JisonParser {
+class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
     Map symbols = {};
     Map terminals = {};
     Map productions = {};

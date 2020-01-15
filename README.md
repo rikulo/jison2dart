@@ -61,6 +61,12 @@ Optional. Specfies the name of the Dart pasrer.
 %class CalcParser
 ```
 
+If you'd like to extend from your custom class, you can specify it as follows:
+
+```
+%class CalcParser extends MyGenericParser
+```
+
 ### The prologue: `%{` and `%}`
 
 Optional. If you'd like to import other libraries or embed Dart codes, you can put the code between `%{` and `%}`.
