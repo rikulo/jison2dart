@@ -2,9 +2,6 @@ name: jison2dart
 version: 0.2.0
 description: > 
   Generate Dart parsers using Jison based on Bison parser generator
-authors:
-- Jumper Chen <jumperchen@zkoss.org>
-- Tom Yeh <tomyeh@rikulo.org>
 homepage: https://github.com/rikulo/jison2dart
 
 dependencies:

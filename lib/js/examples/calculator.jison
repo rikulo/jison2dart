@@ -1,11 +1,12 @@
 /* description: Parses and executes mathematical expressions. */
+%library calculator
 
 /* test code in Dart */
 %{
 import "package:test/test.dart";
 
 void main() {
-    final calc = new Calculator();
+    final calc = Calculator();
     test("Calc", () {
         expect(calc.parse("3 + 5 * 2"), 13);
         expect(calc.parse("3 + 5 * (2 + 1)"), 18);

@@ -19,9 +19,9 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+package.json
 
 .DS_Store
 .idea
 node_modules/
 package-lock.json
-calculator.dart
