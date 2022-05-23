@@ -28,14 +28,18 @@ class ParserLocation {
   int lastColumn = 0;
   ParserRange range;
 
-  ParserLocation([this.firstLine = 1, this.lastLine = 0, this.firstColumn = 1, this.lastColumn = 0]);
+  ParserLocation(
+      [this.firstLine = 1,
+      this.lastLine = 0,
+      this.firstColumn = 1,
+      this.lastColumn = 0]);
 
   void Range(ParserRange $range) {
     range = $range;
   }
 
   ParserLocation clone() {
-    return new ParserLocation(firstLine, lastLine, firstColumn, lastColumn);
+    return ParserLocation(firstLine, lastLine, firstColumn, lastColumn);
   }
 }
 
@@ -51,7 +55,7 @@ class ParserValue {
   var $;
 
   ParserValue clone() {
-    var clone = new ParserValue();
+    var clone = ParserValue();
     clone.leng = leng;
     if (loc != null) {
       clone.loc = loc.clone();
@@ -117,7 +121,8 @@ class ParserError extends Error {
   List<String> expected;
   String _errStr;
 
-  ParserError(this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
+  ParserError(
+      this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
 
   String get errStr => _errStr;
   set errStr(err) => _errStr = err as String;

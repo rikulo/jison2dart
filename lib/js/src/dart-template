@@ -71,11 +71,11 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
 
     dynamic parse(String $input) {
         if (table.isEmpty) {
-            throw new Exception('Empty Table');
+            throw Exception('Empty Table');
         }
-        eof = new ParserSymbol('Eof', 1);
-        var $firstAction = new ParserAction(0, table[0] as ParserState);
-        var $firstCachedAction = new ParserCachedAction($firstAction);
+        eof = ParserSymbol('Eof', 1);
+        var $firstAction = ParserAction(0, table[0] as ParserState);
+        var $firstCachedAction = ParserCachedAction($firstAction);
         var $stack = [$firstCachedAction];
         var $vstack = <dynamic>[null];
         var $yy;
@@ -121,7 +121,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                         '${terminals[$symbol.index] != null ? terminals[$symbol.index].name : 'NOTHING'}\'';
 
 
-                    parseError($errStr, new ParserError(match as String, $state, $symbol, yy.lineNo, yy.loc, $expected));
+                    parseError($errStr, ParserError(match as String, $state, $symbol, yy.lineNo, yy.loc, $expected));
                 }
             }
 
@@ -133,7 +133,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                 case 1:
                     // shift
                     //shiftCount++;
-                    $stack.add(new ParserCachedAction($action, $symbol));
+                    $stack.add( ParserCachedAction($action, $symbol));
 
                     $vstack.add(yy.text);
 
@@ -151,13 +151,13 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                     // reduce
                     var $len = productions[$action.state.index].len;
                     // perform semantic action
-                    $_yy = new ParserValue();
+                    $_yy =  ParserValue();
                     $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - ($len as int)];// default to $S = $1
                     // default location, uses first token for firsts, last for lasts
                     // ignore: undefined_identifier
                     if (options['ranges'] == true) {
                         //TODO: add ranges
-                        throw new UnimplementedError('Not supported in dart version');
+                        throw  UnimplementedError('Not supported in dart version');
                     }
 
                     yy.yystate = $action.state.index as int;
@@ -188,7 +188,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                     var $nextState = $stack[$stack.length - 1].action.state;
                     var $nextAction = $nextState.actions[$nextSymbol.index];
 
-                    $stack.add(new ParserCachedAction($nextAction, $nextSymbol));
+                    $stack.add( ParserCachedAction($nextAction, $nextSymbol));
 
 
                     yy.stack = $stack;
@@ -225,14 +225,14 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
         _input = $input;
         _more = this.backtrack = done = false;
         matched = match = '';
-        yy = new ParserValue();
+        yy =  ParserValue();
         conditionStack = ['INITIAL'];
         // ignore: undefined_identifier
         if (options['ranges'] == true) {
-            var loc = yy.loc = new ParserLocation();
-            loc.Range(new ParserRange(0, 0));
+            var loc = yy.loc =  ParserLocation();
+            loc.Range( ParserRange(0, 0));
         } else {
-            yy.loc = new ParserLocation();
+            yy.loc =  ParserLocation();
         }
         offset = 0;
     }
@@ -244,7 +244,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
         offset++;
         match += ch;
         matched += ch;
-        RegExp regex = new RegExp(r'(?:\r\n?|\n).*');
+        RegExp regex =  RegExp(r'(?:\r\n?|\n).*');
         Iterable<Match> lines = regex.allMatches(ch);
         if (lines.length > 0) {
             yy.lineNo++;
@@ -263,14 +263,14 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
 
     unput(String $ch) {
         var len = $ch.length;
-        var lines = $ch.split(new RegExp(r'(?:\r\n?|\n)'));
+        var lines = $ch.split( RegExp(r'(?:\r\n?|\n)'));
         var linesCount = lines.length;
 
         _input = $ch + _input;
         yy.text = yy.text.substring(0, len - 1);
         //yylen -= $len;
         offset -= len;
-        var oldLines = match.split(new RegExp(r'(?:\r\n?|\n)'));
+        var oldLines = match.split( RegExp(r'(?:\r\n?|\n)'));
         var oldLinesCount = oldLines.length;
         match = match.substring(0, match.length - 1);
         matched = matched.substring(0, matched.length - 1);
@@ -280,7 +280,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
         var oldLinesLength = (oldLines[oldLinesCount - linesCount]) != null ?
             oldLines[oldLinesCount - linesCount].length : 0;
 
-        yy.loc = new ParserLocation(
+        yy.loc =  ParserLocation(
             yy.loc.firstLine,
             yy.lineNo,
             yy.loc.firstColumn,
@@ -290,7 +290,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
         );
         // ignore: undefined_identifier
         if (options['ranges'] == true) {
-            yy.loc.range = new ParserRange(r.x, r.x + yy.leng - len);
+            yy.loc.range =  ParserRange(r.x, r.x + yy.leng - len);
         }
     }
 
@@ -305,7 +305,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
             lexerError('Lexical error on line ${yy.lineNo + 1}. '
             'You can only invoke reject() in the lexer when the lexer'
             'is of the backtracking persuasion (options.backtrack_lexer = true).\n'
-                + showPosition(), new LexerError('', -1, yy.lineNo));
+                + showPosition(),  LexerError('', -1, yy.lineNo));
         }
     }
 
@@ -395,7 +395,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
         if (_input.isEmpty) {
             return eof;
         } else {
-            lexerError('Lexical error on line ${yy.lineNo + 1}. Unrecognized text.\n' + showPosition(), new LexerError('', -1, yy.lineNo));
+            lexerError('Lexical error on line ${yy.lineNo + 1}. Unrecognized text.\n' + showPosition(), LexerError('', -1, yy.lineNo));
             return null;
         }
     }
@@ -418,16 +418,16 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
             };
         }
         int $matchCount = $match.group(0).length;
-        var $lineCount = new RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0));
+        var $lineCount =  RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0));
         var $line = $lineCount != null ? $lineCount.group(0) : '';
         yy.lineNo += $lineCount != null ? $lineCount.groupCount : 0;
 
-        yy.loc = new ParserLocation(
+        yy.loc =  ParserLocation(
             yy.loc.lastLine,
             yy.lineNo + 1,
             yy.loc.lastColumn,
             ($lineCount != null && $lineCount.groupCount > 0 ?
-            $line.length - new RegExp(r'\r?\n?').firstMatch($line).groupCount :
+            $line.length -  RegExp(r'\r?\n?').firstMatch($line).groupCount :
             yy.loc.lastColumn + $matchCount
             )
         );
@@ -440,7 +440,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
 
         yy.leng = yy.text.length as int;
         if (ranges != null) {
-            yy.loc.range = new ParserRange(offset, offset += yy.leng);
+            yy.loc.range =  ParserRange(offset, offset += yy.leng);
         }
         _more = false;
         backtrack = false;
@@ -483,7 +483,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                             this.done = v as bool;
                             break;
                         default:
-                            throw new UnsupportedError('Key is unknown [$k]');
+                            throw  UnsupportedError('Key is unknown [$k]');
                     }
                 });
                 return false; // rule action called reject() implying the next rule should be tested instead.
@@ -519,7 +519,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
                             this.done = v as bool;
                             break;
                         default:
-                            throw new UnsupportedError('Key is unknown [$k]');
+                            throw  UnsupportedError('Key is unknown [$k]');
                     }
                 });
                 popState();
