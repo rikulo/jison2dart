@@ -32,8 +32,8 @@ class Calculator extends JisonParser {
     int shift = 1;
     int reduce = 2;
     int accept = 3;
-    bool backtrack;
-    InjectMatch getMatch;
+    late bool backtrack;
+    late InjectMatch getMatch;
     Map data = {};
 
     Map<String, bool> options = {};
@@ -405,7 +405,7 @@ var			defaultActions = {
 switch ($yystate) {
 case 1:
  return $s[$o-1]; 
-break;
+
 case 2:
 $thisS.$ = $s[$o-2]+$s[$o];
 break;
@@ -468,9 +468,9 @@ break;
         var $stack = [$firstCachedAction];
         var $vstack = <dynamic>[null];
         var $yy;
-        ParserValue $_yy;
+        ParserValue? $_yy;
         var $recovering = 0;
-        ParserSymbol $symbol;
+        ParserSymbol? $symbol;
         var $action;
         String $errStr = '';
         var $preErrorSymbol;
@@ -479,14 +479,13 @@ break;
 
         while (true) {
             // retrieve state number from top of stack
-           var  $state = $stack[$stack.length - 1].action.state;
+           var $state = $stack[$stack.length - 1].action!.state;
             // use default actions if available
             if ($state != null && defaultActions[$state.index] != null) {
                 $action = defaultActions[$state.index];
             } else {
-                if ($symbol == null) {
-                    $symbol = parserLex();
-                }
+                $symbol ??= parserLex();
+
                 // read action for current state and first input
                 if ($state != null && $state.actions[$symbol.index] != null) {
                     //$action = table[$state][$symbol];
@@ -500,14 +499,14 @@ break;
                 if ($recovering == 0) {
                     // Report error
                     var $expected = <String>[];
-                    table[$state.index].actions.forEach(($k, $v) {
+                    table[$state!.index].actions.forEach(($k, $v) {
                         if (terminals[$k] != null && $k as num > 2) {
                             $expected.add(terminals[$k].name as String);
                         }
                     });
 
                     $errStr = 'Parse error on line ${yy.lineNo + 1}:\n${showPosition()} \nExpecting  \'${$expected.join('\', \'')}\', got \''
-                        '${terminals[$symbol.index] != null ? terminals[$symbol.index].name : 'NOTHING'}\'';
+                        '${terminals[$symbol!.index] != null ? terminals[$symbol.index].name : 'NOTHING'}\'';
 
 
                     parseError($errStr, ParserError(match as String, $state, $symbol, yy.lineNo, yy.loc, $expected));
@@ -540,7 +539,7 @@ break;
                     // reduce
                     var $len = productions[$action.state.index].len;
                     // perform semantic action
-                    $_yy =  ParserValue();
+                    $_yy = ParserValue();
                     $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - ($len as int)];// default to $S = $1
                     // default location, uses first token for firsts, last for lasts
                     // ignore: undefined_identifier
@@ -566,19 +565,14 @@ break;
                         $vstack.removeLast();
                     }
 
-                    if ($_yy == null) {
-                        $vstack.add(null);
-                    } else {
-                        $vstack.add($_yy.$);
-                    }
+                    $vstack.add($_yy.$);
 
                     var $nextSymbol = productions[$action.state.index].symbol;
                     // goto new state = table[STATE][NONTERMINAL]
-                    var $nextState = $stack[$stack.length - 1].action.state;
+                    var $nextState = $stack[$stack.length - 1].action!.state!;
                     var $nextAction = $nextState.actions[$nextSymbol.index];
 
                     $stack.add( ParserCachedAction($nextAction, $nextSymbol));
-
 
                     yy.stack = $stack;
                     yy.vstack = $vstack;
@@ -596,17 +590,17 @@ break;
 
 
     /* Jison generated lexer */
-    ParserSymbol eof;
-    ParserValue yy;
+    late ParserSymbol eof;
+    late ParserValue yy;
     dynamic match = '';
     String matched = '';
     List conditionStack = [];
     Map<int, dynamic> rules = {};
     Map<String, LexerConditions> conditions = {};
     bool done = false;
-    bool _more;
-    String _input;
-    int offset;
+    late bool _more;
+    late String _input;
+    late int offset;
     dynamic ranges;
     bool flex = false;
 
@@ -614,14 +608,14 @@ break;
         _input = $input;
         _more = this.backtrack = done = false;
         matched = match = '';
-        yy =  ParserValue();
+        yy = ParserValue();
         conditionStack = ['INITIAL'];
         // ignore: undefined_identifier
         if (options['ranges'] == true) {
-            var loc = yy.loc =  ParserLocation();
-            loc.Range( ParserRange(0, 0));
+            var loc = yy.loc = ParserLocation();
+            loc.setRange( ParserRange(0, 0));
         } else {
-            yy.loc =  ParserLocation();
+            yy.loc = ParserLocation();
         }
         offset = 0;
     }
@@ -633,7 +627,7 @@ break;
         offset++;
         match += ch;
         matched += ch;
-        RegExp regex =  RegExp(r'(?:\r\n?|\n).*');
+        RegExp regex = RegExp(r'(?:\r\n?|\n).*');
         Iterable<Match> lines = regex.allMatches(ch);
         if (lines.length > 0) {
             yy.lineNo++;
@@ -669,7 +663,7 @@ break;
         var oldLinesLength = (oldLines[oldLinesCount - linesCount]) != null ?
             oldLines[oldLinesCount - linesCount].length : 0;
 
-        yy.loc =  ParserLocation(
+        yy.loc = ParserLocation(
             yy.loc.firstLine,
             yy.lineNo,
             yy.loc.firstColumn,
@@ -679,7 +673,7 @@ break;
         );
         // ignore: undefined_identifier
         if (options['ranges'] == true) {
-            yy.loc.range =  ParserRange(r.x, r.x + yy.leng - len);
+            yy.loc.range = ParserRange(r.x, r.x + yy.leng - len);
         }
     }
 
@@ -740,18 +734,18 @@ break;
         }
 
         var $rules = currentRules();
-        int $index;
-        Match $match;
+        int? $index;
+        Match? $match;
         var $token;
         for (var $i = 0, $j = $rules.length as int; $i < $j; $i++) {
-            Match $tempMatch;
+            Match? $tempMatch;
             final rule = rules[$rules[$i]];
             if (rule is InjectFunction) {
               $tempMatch = cast(rule(this, _input));
             } else {
                 $tempMatch = (rule as RegExp).firstMatch(_input);
             }
-            if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0).length > $match.group(0).length)) {
+            if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0)!.length > $match!.group(0)!.length)) {
                 $match = $tempMatch;
                 $index = $i;
                 // ignore: undefined_identifier
@@ -791,7 +785,7 @@ break;
 
     // test the lexed token: return FALSE when not a match, otherwise return token
     testMatch(Match $match, int $ruleIndex) {
-        Map<String, dynamic> backup;
+        late Map<String, dynamic> backup;
         // ignore: undefined_identifier
         if (options['backtrack_lexer'] == true) {
             // save context
@@ -806,17 +800,17 @@ break;
                 'done': this.done
             };
         }
-        int $matchCount = $match.group(0).length;
-        var $lineCount =  RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0));
-        var $line = $lineCount != null ? $lineCount.group(0) : '';
+        int $matchCount = $match.group(0)!.length;
+        var $lineCount = RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0)!);
+        var $line = $lineCount != null ? $lineCount.group(0)! : '';
         yy.lineNo += $lineCount != null ? $lineCount.groupCount : 0;
 
-        yy.loc =  ParserLocation(
+        yy.loc = ParserLocation(
             yy.loc.lastLine,
             yy.lineNo + 1,
             yy.loc.lastColumn,
             ($lineCount != null && $lineCount.groupCount > 0 ?
-            $line.length -  RegExp(r'\r?\n?').firstMatch($line).groupCount :
+            $line.length -  RegExp(r'\r?\n?').firstMatch($line)!.groupCount :
             yy.loc.lastColumn + $matchCount
             )
         );
@@ -825,11 +819,11 @@ break;
         yy.text += $match[0];
         match += $match[0];
 //            matches = $match;
-        matched += $match[0];
+        matched += $match[0]!;
 
         yy.leng = yy.text.length as int;
         if (ranges != null) {
-            yy.loc.range =  ParserRange(offset, offset += yy.leng);
+            yy.loc.range = ParserRange(offset, offset += yy.leng);
         }
         _more = false;
         backtrack = false;
@@ -944,9 +938,9 @@ break;
 
     currentRules() {
         if (this.conditionStack.length > 0 && this.conditionStack[this.conditionStack.length - 1] != null) {
-            return this.conditions[this.conditionStack[this.conditionStack.length - 1]].rules;
+            return this.conditions[this.conditionStack[this.conditionStack.length - 1]]!.rules;
         } else {
-            return this.conditions["INITIAL"].rules;
+            return this.conditions["INITIAL"]!.rules;
         }
     }
 
@@ -958,25 +952,25 @@ switch($avoidingNameCollisions) {
 case 0:/* skip whitespace */
 break;
 case 1:return 13;
-break;
+
 case 2:return 8;
-break;
+
 case 3:return 9;
-break;
+
 case 4:return 7;
-break;
+
 case 5:return 6;
-break;
+
 case 6:return 10;
-break;
+
 case 7:return 11;
-break;
+
 case 8:return 12;
-break;
+
 case 9:return 5;
-break;
+
 case 10:return 'INVALID';
-break;
+
 }
 
     }

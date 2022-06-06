@@ -26,7 +26,7 @@ class ParserLocation {
   int lastLine = 0;
   int firstColumn = 1;
   int lastColumn = 0;
-  ParserRange range;
+  late ParserRange range;
 
   ParserLocation(
       [this.firstLine = 1,
@@ -34,7 +34,7 @@ class ParserLocation {
       this.firstColumn = 1,
       this.lastColumn = 0]);
 
-  void Range(ParserRange $range) {
+  void setRange(ParserRange $range) {
     range = $range;
   }
 
@@ -45,21 +45,19 @@ class ParserLocation {
 
 class ParserValue {
   int leng = 0;
-  ParserLocation loc;
+  late ParserLocation loc;
   int lineNo = 0;
   var text;
-  List stack;
-  List vstack;
-  List lstack;
-  int yystate;
+  List? stack;
+  List? vstack;
+  List? lstack;
+  int? yystate;
   var $;
 
   ParserValue clone() {
     var clone = ParserValue();
     clone.leng = leng;
-    if (loc != null) {
-      clone.loc = loc.clone();
-    }
+    clone.loc = loc.clone();
     clone.lineNo = lineNo;
     clone.text = text;
     clone.$ = $;
@@ -82,19 +80,16 @@ class ParserProduction {
 }
 
 class ParserCachedAction {
-  ParserAction action;
-  ParserSymbol symbol;
+  ParserAction? action;
+  ParserSymbol? symbol;
 
-  ParserCachedAction($action, [$symbol]) {
-    action = $action as ParserAction;
-    symbol = $symbol as ParserSymbol;
-  }
+  ParserCachedAction(this.action, [this.symbol]);
 }
 
 class ParserAction {
   int action;
-  ParserState state;
-  String symbol;
+  ParserState? state;
+  String? symbol;
 
   ParserAction(this.action, [this.state, this.symbol]);
 }
@@ -119,27 +114,27 @@ class ParserError extends Error {
   int lineNo;
   ParserLocation loc;
   List<String> expected;
-  String _errStr;
+  String? _errStr;
 
   ParserError(
       this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
 
-  String get errStr => _errStr;
-  set errStr(err) => _errStr = err as String;
-  String toString() => _errStr;
+  String? get errStr => _errStr;
+  void set errStr(String? err) => _errStr = err;
+  String toString() => _errStr.toString();
 }
 
 class LexerError extends Error {
   String text;
   int token;
   int lineNo;
-  String _errStr;
+  String? _errStr;
 
   LexerError(this.text, this.token, this.lineNo);
 
-  String get errStr => _errStr;
-  set errStr(err) => _errStr = err as String;
-  String toString() => _errStr;
+  String? get errStr => _errStr;
+  void set errStr(String? err) => _errStr = err;
+  String toString() => _errStr.toString();
 }
 
 class ParserState {

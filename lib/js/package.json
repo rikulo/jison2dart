@@ -1,7 +1,7 @@
 {
   "author": "Jumper Chen <jumperchen@zkoss.org> (https://keikai.io)",
   "contributors": [
-    "Tom Yeh <tomyeh@rikulo.org> (https://quire.io)"
+    "Tom Yeh <tomyeh@potix.com> (https://quire.io)"
   ],
   "name": "jison2dart",
   "version": "0.1.0",
