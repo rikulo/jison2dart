@@ -16,7 +16,7 @@ Then, you can compile a Jison file to a Dart parser. For example,
 
 ```
 cd examples
-node ../jison2dart.js calculator.jison
+node ../lib/js/jison2dart.js calculator.jison
 ```
 
 For more options, please run
@@ -85,7 +85,7 @@ Optional. If you'd like to import other libraries or embed Dart codes, you can p
 
 ## Resources
 
-* [API Reference](http://www.dartdocs.org/documentation/jison2dart/0.2.0)
+* [API Reference](https://pub.dev/documentation/jison2dart/latest)
 * [Git Repos](https://github.com/rikulo/jison2dart)
 
 ## Who Uses
