@@ -17,8 +17,36 @@ typedef T InjectFunction<T>(JisonParser self, String input);
 
 S cast<S>(value) => value as S;
 
+/// The base class of the parser.
+/// By default, [DefaultJisonParser] is used.
+/// 
+/// If you prefer to provide your own implementation of [getParseErrorMessage]
+/// and [getParseErrorMessage], you extend from [JisonParser] and then
+/// specify your class with `@extends`.
 abstract class JisonParser {
   dynamic parse(String input);
+
+  /// Retrieves the error message for a parser error.
+  String getParserErrorMessage(int lineNo, String position(),
+      List<String> expected, String unexpected);
+  /// Retrieves the error message for a lexer error.
+  String getLexerErrorMessage(int lineNo, String position(), {required bool reject});
+}
+
+/// The default base class for the generated parser.
+/// It extends [JisonParser] to generate the error message.
+abstract class DefaultJisonParser extends JisonParser {
+  @override
+  String getParserErrorMessage(int lineNo, String position(),
+      List<String> expected, String unexpected)
+  => 'Line $lineNo:\n${position()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
+
+  @override
+  String getLexerErrorMessage(int lineNo, String position(), {required bool reject})
+  => 'Line $lineNo:\n${position()}\n' + (reject ?
+      'You can only invoke reject() when the lexer'
+      'is of the backtracking persuasion (options.backtrack_lexer = true)':
+      'Unrecognized text.');
 }
 
 class ParserLocation {
@@ -108,37 +136,34 @@ class ParserSymbol {
 }
 
 class ParserError extends Error {
-  String text;
-  ParserState state;
-  ParserSymbol symbol;
-  int lineNo;
-  ParserLocation loc;
-  List<String> expected;
-  String? _errStr;
+  /// The error message.
+  final String message;
+  /// The source text causing the error.
+  final String text;
+  final ParserState state;
+  final ParserSymbol symbol;
+  final int lineNo;
+  final ParserLocation loc;
+  final List<String> expected;
 
-  ParserError(
-      this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
+  ParserError(this.message, this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
 
-  String? get errStr => _errStr;
-  void set errStr(String? err) => _errStr = err;
-  String toString() => _errStr.toString();
+  @override
+  String toString() => message;
 }
 
 class LexerError extends Error {
-  String text;
-  int token;
-  int lineNo;
-  String? _errStr;
+  final String message;
+  final int lineNo;
 
-  LexerError(this.text, this.token, this.lineNo);
+  LexerError(this.message, this.lineNo);
 
-  String? get errStr => _errStr;
-  void set errStr(String? err) => _errStr = err;
-  String toString() => _errStr.toString();
+  @override
+  String toString() => message;
 }
 
 class ParserState {
-  int index;
+  final int index;
   Map<int, ParserAction> actions = {};
 
   ParserState(this.index);

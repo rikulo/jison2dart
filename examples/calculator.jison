@@ -6,11 +6,12 @@
 import "package:test/test.dart";
 
 void main() {
-    final calc = Calculator();
-    test("Calc", () {
-        expect(calc.parse("3 + 5 * 2"), 13);
-        expect(calc.parse("3 + 5 * (2 + 1)"), 18);
-    });
+  final calc = Calculator();
+  test("Calc", () {
+    expect(calc.parse("3 + 5 * 2"), 13);
+    expect(calc.parse("3 + 5 * (2 + 1)"), 18);
+    print(calc.parse("3 + %"));
+  });
 }
 %}
 

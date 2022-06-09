@@ -28,7 +28,7 @@ node bison.js --help
 The Dart file will contain a class depending on the jison filename. For example,
 
 ```
-class Caculator extends JisonParser {
+class Caculator extends DefaultJisonParser {
 
   dynamic parse() {
 ...
@@ -61,11 +61,15 @@ Optional. Specfies the name of the Dart pasrer.
 %class CalcParser
 ```
 
+### `%extends`
+
 If you'd like to extend from your custom class, you can specify it as follows:
 
 ```
-%class CalcParser extends MyGenericParser
+%extends MyGenericParser
 ```
+
+Note: Your implementation must implement `JisonParser`, or extends `DefaultJisonParser`.
 
 ### The prologue: `%{` and `%}`
 
