@@ -10,7 +10,6 @@ void main() {
   test("Calc", () {
     expect(calc.parse("3 + 5 * 2"), 13);
     expect(calc.parse("3 + 5 * (2 + 1)"), 18);
-    print(calc.parse("3 + %"));
   });
 }
 %}

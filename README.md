@@ -15,7 +15,7 @@ npm install
 Then, you can compile a Jison file to a Dart parser. For example,
 
 ```
-cd examples
+cd example
 node ../lib/js/jison2dart.js calculator.jison
 ```
 
