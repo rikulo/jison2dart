@@ -3,6 +3,7 @@
 
 /* test code in Dart */
 %{
+import "dart:math" as math;
 import "package:test/test.dart";
 
 void main() {

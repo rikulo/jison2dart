@@ -12,6 +12,8 @@
  */
 library jison2dart;
 
+import 'dart:math' as math;
+
 typedef Match InjectMatch(String key, String input);
 typedef T InjectFunction<T>(JisonParser self, String input);
 
@@ -27,26 +29,30 @@ abstract class JisonParser {
   dynamic parse(String input);
 
   /// Retrieves the error message for a parser error.
-  String getParserErrorMessage(int lineNo, String position(),
+  String getParserErrorMessage(int lineNo,
+      String input, String matched, String match,
       List<String> expected, String unexpected);
   /// Retrieves the error message for a lexer error.
-  String getLexerErrorMessage(int lineNo, String position(), {required bool reject});
+  String getLexerErrorMessage(int lineNo,
+      String input, String matched, String match);
 }
 
 /// The default base class for the generated parser.
 /// It extends [JisonParser] to generate the error message.
 abstract class DefaultJisonParser extends JisonParser {
   @override
-  String getParserErrorMessage(int lineNo, String position(),
+  String getParserErrorMessage(int lineNo,
+      String input, String matched, String match,
       List<String> expected, String unexpected)
-  => 'Line $lineNo:\n${position()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
+  => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
 
   @override
-  String getLexerErrorMessage(int lineNo, String position(), {required bool reject})
-  => 'Line $lineNo:\n${position()}\n' + (reject ?
-      'You can only invoke reject() when the lexer'
-      'is of the backtracking persuasion (options.backtrack_lexer = true)':
-      'Unrecognized text.');
+  String getLexerErrorMessage(int lineNo,
+      String input, String matched, String match,)
+  => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nUnrecognized text.';
+  //reject:
+  // 'You can only invoke reject() when the lexer'
+  // 'is of the backtracking persuasion (options.backtrack_lexer = true)'
 }
 
 class ParserLocation {
@@ -178,4 +184,33 @@ class ParserRange {
   int y;
 
   ParserRange(this.x, this.y);
+}
+
+class ShowPosition {
+  final String input, matched, match;
+
+  ShowPosition(this.input, this.matched, this.match);
+
+  String pastInput() {
+    var past = matched.substring(0, (matched.length - match.length));
+    return (past.length > 20 ? '...' : '') + past.replaceAll('\n', '');
+  }
+
+  String upcomingInput() {
+    var next = match;
+    if (next.length < 20) {
+      next += input.substring(0, math.min(20 - next.length, input.length));
+    }
+    return (next.substring(0, math.min(20, next.length)) + (next.length > 20 ? '...' : '')).replaceAll('\n', '');
+  }
+
+  /// Shows the position.
+  String show() {
+    var pre = pastInput();
+    var c = '';
+    for(var i = 0, $preLength = pre.length; i < $preLength; i++) {
+      c += '-';
+    }
+    return '$pre${upcomingInput()}\n$c^';
+  }
 }

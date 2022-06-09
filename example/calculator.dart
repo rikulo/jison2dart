@@ -6,10 +6,10 @@ library calculator;
 // ignore_for_file: non_bool_operand, variable_type_mismatch, switch_expression_not_assignable
 // ignore_for_file: annotate_overrides, unused_local_variable, camel_case_types
 
-import 'dart:math' as math;
 import 'package:jison2dart/jison2dart.dart';
 
 
+import "dart:math" as math;
 import "package:test/test.dart";
 
 void main() {
@@ -26,22 +26,22 @@ class Calculator extends DefaultJisonParser {
   Map productions = {};
   Map table = {};
   Map defaultActions = {};
-  String version = '0.4.17';
-  bool debug = false;
-  int none = 0;
-  int shift = 1;
-  int reduce = 2;
-  int accept = 3;
+  //String version = '0.4.17';
+  //bool debug = false;
+  static const int none = 0;
+  static const int shift = 1;
+  static const int reduce = 2;
+  static const int accept = 3;
   late bool backtrack;
-  late InjectMatch getMatch;
+  //late InjectMatch getMatch;
   Map data = {};
 
   Map<String, bool> options = {};
 
   
 
-  void trace() {
-  }
+  //void trace() {
+  //}
 
   Calculator() {
     //Setup Parser
@@ -351,7 +351,7 @@ var			$tableDefinition19 = {
 					19: $table19
 				};
 
-var			defaultActions = {
+			defaultActions = {
 				
 					6: ParserAction(reduce, $table1)
 				};
@@ -494,7 +494,8 @@ break;
             }
           });
 
-          $errStr = getParserErrorMessage(yy.lineNo + 1, showPosition, $expected,
+          $errStr = getParserErrorMessage(yy.lineNo + 1,
+            _input, matched, match as String, $expected,
             terminals[$symbol!.index] != null ? terminals[$symbol.index].name : 'NOTHING');
           throw ParserError($errStr,
               match as String, $state, $symbol, yy.lineNo, yy.loc, $expected);
@@ -661,6 +662,7 @@ break;
     }
   }
 
+/*
   void more() {
     _more = true;
   }
@@ -670,7 +672,7 @@ break;
       this.backtrack = true;
     } else {
       throw LexerError(
-        getLexerErrorMessage(yy.lineNo + 1, showPosition, reject: true),
+        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match as String, reject: true),
         yy.lineNo);
     }
   }
@@ -678,29 +680,7 @@ break;
   void less(int n) {
     this.unput((this.match as String).substring(n));
   }
-
-  String pastInput() {
-    var past = matched.substring(0, (matched.length - (match as String).length));
-    return (past.length > 20 ? '...' : '') + past.replaceAll('\n', '');
-  }
-
-  String upcomingInput() {
-    var next = match as String;
-    if (next.length < 20) {
-      next += _input.substring(0, math.min(20 - next.length, _input.length));
-    }
-    return (next.substring(0, math.min(20, next.length)) + (next.length > 20 ? '...' : '')).replaceAll('\n', '');
-  }
-
-  String showPosition() {
-    var pre = pastInput();
-
-    var c = '';
-    for(var i = 0, $preLength = pre.length; i < $preLength; i++) {
-      c += '-';
-    }
-    return '$pre${upcomingInput()}\n$c^';
-  }
+*/
 
   next() {
     if (done == true) {
@@ -763,7 +743,7 @@ break;
       return eof;
     } else {
       throw LexerError(
-        getLexerErrorMessage(yy.lineNo + 1, showPosition, reject: false),
+        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match as String),
           yy.lineNo);
     }
   }
