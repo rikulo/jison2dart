@@ -1,4 +1,4 @@
-# 0.5.2
+# 0.5.3
 
 * Remove the support of the `backtrack_lexer`, `flex` and `ranges` options
 
