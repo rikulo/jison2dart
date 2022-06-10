@@ -56,11 +56,10 @@ abstract class DefaultJisonParser extends JisonParser {
 }
 
 class ParserLocation {
-  int firstLine = 1;
-  int lastLine = 0;
-  int firstColumn = 1;
-  int lastColumn = 0;
-  late ParserRange range;
+  int firstLine;
+  int lastLine;
+  int firstColumn;
+  int lastColumn;
 
   ParserLocation(
       [this.firstLine = 1,
@@ -68,31 +67,27 @@ class ParserLocation {
       this.firstColumn = 1,
       this.lastColumn = 0]);
 
-  void setRange(ParserRange $range) {
-    range = $range;
-  }
-
   ParserLocation clone() {
     return ParserLocation(firstLine, lastLine, firstColumn, lastColumn);
   }
 }
 
 class ParserValue {
-  int leng = 0;
+  int length;
   late ParserLocation loc;
-  int lineNo = 0;
-  var text;
+  int lineNo;
+  var text; //its type depends on parser's action
   List? stack;
   List? vstack;
   List? lstack;
   int? yystate;
   var $;
 
+  ParserValue([this.length = 0, this.lineNo = 0]);
+
   ParserValue clone() {
-    var clone = ParserValue();
-    clone.leng = leng;
+    var clone = ParserValue(length, lineNo);
     clone.loc = loc.clone();
-    clone.lineNo = lineNo;
     clone.text = text;
     clone.$ = $;
     return clone;
@@ -100,22 +95,22 @@ class ParserValue {
 }
 
 class LexerConditions {
-  List<int> rules;
-  bool inclusive;
+  final List<int> rules;
+  final bool inclusive;
 
   LexerConditions(this.rules, this.inclusive);
 }
 
 class ParserProduction {
-  int len = 0;
-  ParserSymbol symbol;
+  final int length;
+  final ParserSymbol symbol;
 
-  ParserProduction(this.symbol, [this.len = 0]);
+  ParserProduction(this.symbol, [this.length = 0]);
 }
 
 class ParserCachedAction {
-  ParserAction? action;
-  ParserSymbol? symbol;
+  final ParserAction? action;
+  final ParserSymbol? symbol;
 
   ParserCachedAction(this.action, [this.symbol]);
 }

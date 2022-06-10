@@ -1,10 +1,9 @@
 
 // Jison2dart generated parser
 
-// ignore_for_file: directive_after_declaration
+// ignore_for_file: directive_after_declaration, camel_case_types
 // ignore_for_file: return_of_invalid_type, argument_type_not_assignable, non_bool_condition
 // ignore_for_file: non_bool_operand, variable_type_mismatch, switch_expression_not_assignable
-// ignore_for_file: annotate_overrides, unused_local_variable, camel_case_types
 
 import 'package:jison2dart/jison2dart.dart';
 
@@ -216,7 +215,7 @@ case 7:return 'INVALID';
     var $firstAction = ParserAction(0, _table[0] as ParserState);
     var $firstCachedAction = ParserCachedAction($firstAction);
     var $stack = [$firstCachedAction];
-    var $vstack = <dynamic>[null];
+    var $vstack = <dynamic>[null]; //its type depends on action
     var $yy;
     ParserValue? $_yy;
     var $recovering = 0;
@@ -288,12 +287,11 @@ case 7:return 'INVALID';
 
         case 2:
           // reduce
-          var $len = _productions[$action.state.index]!.len;
+          var $len = _productions[$action.state.index]!.length;
           // perform semantic action
           $_yy = ParserValue();
           $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - $len];// default to $S = $1
           // default location, uses first token for firsts, last for lasts
-          // ignore: undefined_identifier
 
           yy.yystate = $action.state.index as int;
           var $r = _parserPerformAction($_yy, $yy, $action.state.index, $vstack, $vstack.length - 1);
@@ -350,7 +348,6 @@ case 7:return 'INVALID';
     matched = match = '';
     yy = ParserValue();
     _conditionStack..clear()..add('INITIAL');
-    // ignore: undefined_identifier
     yy.loc = ParserLocation();
     //_offset = 0;
   }
@@ -358,7 +355,7 @@ case 7:return 'INVALID';
   String input() {
     var ch = _input[0];
     yy.text += ch;
-    yy.leng++;
+    yy.length++;
     //_offset++;
     match += ch;
     matched += ch;
@@ -370,7 +367,6 @@ case 7:return 'INVALID';
     } else {
       yy.loc.lastColumn++;
     }
-    // ignore: undefined_identifier
 
     _input = _input.substring(1);
     return ch;
@@ -391,7 +387,6 @@ case 7:return 'INVALID';
     matched = matched.substring(0, matched.length - 1);
 
     if ((linesCount - 1) > 0) yy.lineNo -= linesCount - 1;
-    var r = yy.loc.range;
     var oldLinesLength = oldLines[oldLinesCount - linesCount].length;
 
     yy.loc = ParserLocation(
@@ -402,7 +397,6 @@ case 7:return 'INVALID';
             (linesCount == oldLinesCount ? yy.loc.firstColumn : 0) + oldLinesLength:
             yy.loc.firstColumn - len)
     );
-    // ignore: undefined_identifier
   }
 
   void more() {
@@ -441,7 +435,6 @@ case 7:return 'INVALID';
       if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0)!.length > $match!.group(0)!.length)) {
         $match = $tempMatch;
         $index = $i;
-        // ignore: undefined_identifier
         //if (options['flex'] != true) {
           break;
         //}
@@ -488,7 +481,7 @@ case 7:return 'INVALID';
 //  matches = $match;
     matched += $match[0]!;
 
-    yy.leng = yy.text.length as int;
+    yy.length = yy.text.length as int;
     _more = false;
     _input = _input.substring($matchCount);
     var $nextCondition = _conditionStack.last;
