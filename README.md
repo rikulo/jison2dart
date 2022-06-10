@@ -1,6 +1,6 @@
 # jison2dart
 
-Generate Dart parsers using [Jison](https://github.com/zaach/jison) - [Bison](https://www.gnu.org/software/bison/) in JavaScript.
+Generate Dart parsers using [Jison](https://github.com/zaach/jison) - [Bison](https://www.gnu.org/software/bison/)/Yacc in JavaScript.
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ The Dart file will contain a class depending on the jison filename. For example,
 ```
 class Caculator extends DefaultJisonParser {
 
-  dynamic parse() {
+  Object parse() {
 ...
 ```
 
@@ -39,7 +39,7 @@ To use the Dart parser in your application, you have to put `jison2dart` to your
 Then, you can use the parser. For example,
 
 ```
-print(new Caculator().parse("2 * 3"));
+print(Caculator().parse("2 * 3"));
 ```
 
 

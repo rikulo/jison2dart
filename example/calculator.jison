@@ -11,6 +11,20 @@ void main() {
   test("Calc", () {
     expect(calc.parse("3 + 5 * 2"), 13);
     expect(calc.parse("3 + 5 * (2 + 1)"), 18);
+
+    try {
+      calc.parse("3 + 5 *");
+      assert(false, "WRONG");
+    } catch (ex) {
+      print(ex);
+    }
+
+    try {
+      calc.parse("3 + 5 7");
+      assert(false, "WRONG");
+    } catch (ex) {
+      print(ex);
+    }
   });
 }
 %}

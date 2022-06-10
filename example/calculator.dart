@@ -17,6 +17,20 @@ void main() {
   test("Calc", () {
     expect(calc.parse("3 + 5 * 2"), 13);
     expect(calc.parse("3 + 5 * (2 + 1)"), 18);
+
+    try {
+      calc.parse("3 + 5 *");
+      assert(false, "WRONG");
+    } catch (ex) {
+      print(ex);
+    }
+
+    try {
+      calc.parse("3 + 5 7");
+      assert(false, "WRONG");
+    } catch (ex) {
+      print(ex);
+    }
   });
 }
 
@@ -32,11 +46,7 @@ class Calculator extends DefaultJisonParser {
   static const int shift = 1;
   static const int reduce = 2;
   static const int accept = 3;
-  late bool backtrack;
   //late InjectMatch getMatch;
-  Map data = {};
-
-  Map<String, bool> options = {};
 
   
 
@@ -375,7 +385,7 @@ var			$tableDefinition19 = {
 
     //Setup Lexer
     
-			rules = {
+			_rules = {
 				
 					0: RegExp(r'''^(?:\s+)''', caseSensitive: true),
 					1: RegExp(r'''^(?:[0-9]+(\.[0-9]+)?\b)''', caseSensitive: true),
@@ -390,7 +400,7 @@ var			$tableDefinition19 = {
 					10: RegExp(r'''^(?:.)''', caseSensitive: true)
 				};
 
-			conditions = {
+			_conditions = {
 				
 					'INITIAL': LexerConditions([ 0,1,2,3,4,5,6,7,8,9,10], true)
 				};
@@ -447,11 +457,8 @@ break;
     return symbols['end'] as ParserSymbol;
   }
 
-  dynamic parse(String $input) {
-    if (table.isEmpty) {
-      throw StateError('Empty');
-    }
-    eof = ParserSymbol('Eof', 1);
+  @override
+  Object parse(String $input) {
     var $firstAction = ParserAction(0, table[0] as ParserState);
     var $firstCachedAction = ParserCachedAction($firstAction);
     var $stack = [$firstCachedAction];
@@ -495,10 +502,10 @@ break;
           });
 
           $errStr = getParserErrorMessage(yy.lineNo + 1,
-            _input, matched, match as String, $expected,
+            _input, matched, match, $expected,
             terminals[$symbol!.index] != null ? terminals[$symbol.index].name : 'NOTHING');
           throw ParserError($errStr,
-              match as String, $state, $symbol, yy.lineNo, yy.loc, $expected);
+              match, $state, $symbol, yy.lineNo, yy.loc, $expected);
         }
       }
 
@@ -531,10 +538,6 @@ break;
           $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - ($len as int)];// default to $S = $1
           // default location, uses first token for firsts, last for lasts
           // ignore: undefined_identifier
-          if (options['ranges'] == true) {
-            //TODO: add ranges
-            throw UnimplementedError('ranges');
-          }
 
           yy.yystate = $action.state.index as int;
           var $r = parserPerformAction($_yy, $yy, $action.state.index, $vstack, $vstack.length - 1);
@@ -573,43 +576,36 @@ break;
     return true;
   }
 
-
   /* Jison generated lexer */
-  late ParserSymbol eof;
+  static final eof = ParserSymbol('Eof', 1);
+
   late ParserValue yy;
-  dynamic match = '';
-  String matched = '';
-  List conditionStack = [];
-  Map<int, dynamic> rules = {};
-  Map<String, LexerConditions> conditions = {};
-  bool done = false;
-  late bool _more;
+  var match = '',
+    matched = '',
+    _rules = <int, dynamic>{},
+    _conditions = <String, LexerConditions>{},
+    done = false,
+    _more = false;
+  final _conditionStack = <String>[];
   late String _input;
-  late int offset;
-  dynamic ranges;
-  bool flex = false;
+  //late int _offset;
 
   void setInput(String $input) {
     _input = $input;
-    _more = this.backtrack = done = false;
+    _more = done = false;
     matched = match = '';
     yy = ParserValue();
-    conditionStack = ['INITIAL'];
+    _conditionStack..clear()..add('INITIAL');
     // ignore: undefined_identifier
-    if (options['ranges'] == true) {
-      var loc = yy.loc = ParserLocation();
-      loc.setRange( ParserRange(0, 0));
-    } else {
-      yy.loc = ParserLocation();
-    }
-    offset = 0;
+    yy.loc = ParserLocation();
+    //_offset = 0;
   }
 
   String input() {
     var ch = _input[0];
     yy.text += ch;
     yy.leng++;
-    offset++;
+    //_offset++;
     match += ch;
     matched += ch;
     RegExp regex = RegExp(r'(?:\r\n?|\n).*');
@@ -621,15 +617,12 @@ break;
       yy.loc.lastColumn++;
     }
     // ignore: undefined_identifier
-    if (options['ranges'] == true) {
-      yy.loc.range.y++;
-    }
 
     _input = _input.substring(1);
     return ch;
   }
 
-  unput(String $ch) {
+  void unput(String $ch) {
     var len = $ch.length;
     var lines = $ch.split( RegExp(r'(?:\r\n?|\n)'));
     var linesCount = lines.length;
@@ -637,7 +630,7 @@ break;
     _input = $ch + _input;
     yy.text = yy.text.substring(0, len - 1);
     //yylen -= $len;
-    offset -= len;
+    //_offset -= len;
     var oldLines = match.split( RegExp(r'(?:\r\n?|\n)'));
     var oldLinesCount = oldLines.length;
     match = match.substring(0, match.length - 1);
@@ -645,44 +638,27 @@ break;
 
     if ((linesCount - 1) > 0) yy.lineNo -= linesCount - 1;
     var r = yy.loc.range;
-    var oldLinesLength = (oldLines[oldLinesCount - linesCount]) != null ?
-      oldLines[oldLinesCount - linesCount].length : 0;
+    var oldLinesLength = oldLines[oldLinesCount - linesCount].length;
 
     yy.loc = ParserLocation(
         yy.loc.firstLine,
         yy.lineNo,
         yy.loc.firstColumn,
         (lines.isEmpty ?
-            (linesCount == oldLinesCount ? yy.loc.firstColumn : 0) + (oldLinesLength as int):
+            (linesCount == oldLinesCount ? yy.loc.firstColumn : 0) + oldLinesLength:
             yy.loc.firstColumn - len)
     );
     // ignore: undefined_identifier
-    if (options['ranges'] == true) {
-      yy.loc.range = ParserRange(r.x, r.x + yy.leng - len);
-    }
   }
 
-/*
   void more() {
     _more = true;
   }
-  void reject() {
-    // ignore: undefined_identifier
-    if (options['backtrack_lexer'] == true) {
-      this.backtrack = true;
-    } else {
-      throw LexerError(
-        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match as String, reject: true),
-        yy.lineNo);
-    }
-  }
-
   void less(int n) {
-    this.unput((this.match as String).substring(n));
+    this.unput(match.substring(n));
   }
-*/
 
-  next() {
+  Object next() {
     if (done == true) {
       return eof;
     }
@@ -700,9 +676,9 @@ break;
     int? $index;
     Match? $match;
     var $token;
-    for (var $i = 0, $j = $rules.length as int; $i < $j; $i++) {
+    for (var $i = 0, $j = $rules.length; $i < $j; $i++) {
       Match? $tempMatch;
-      final rule = rules[$rules[$i]];
+      final rule = _rules[$rules[$i]];
       if (rule is InjectFunction) {
         $tempMatch = cast(rule(this, _input));
       } else {
@@ -712,26 +688,14 @@ break;
         $match = $tempMatch;
         $index = $i;
         // ignore: undefined_identifier
-        if (options['backtrack_lexer'] == true) {
-          $token = testMatch($tempMatch, $rules[$i] as int);
-          if ($token != false) {
-            return $token;
-          } else if (this.backtrack) {
-            $match = null;
-            continue; // rule action called reject() implying a rule MISmatch.
-          } else {
-            // else: this is a lexer rule which consumes input without producing a token (e.g. whitespace)
-            return false;
-          }
-        // ignore: undefined_identifier
-        } else if (options['flex'] != true) {
+        //if (options['flex'] != true) {
           break;
-        }
+        //}
       }
     }
 
     if ($match != null) {
-      $token = testMatch($match, $rules[$index] as int);
+      $token = testMatch($match, $rules[$index!]);
       if ($token != false) {
         return $token;
       }
@@ -743,28 +707,13 @@ break;
       return eof;
     } else {
       throw LexerError(
-        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match as String),
+        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match),
           yy.lineNo);
     }
   }
 
   // test the lexed token: return FALSE when not a match, otherwise return token
-  testMatch(Match $match, int $ruleIndex) {
-    late Map<String, dynamic> backup;
-    // ignore: undefined_identifier
-    if (options['backtrack_lexer'] == true) {
-      // save context
-      backup = {
-        'yy': this.yy.clone(),
-        'match': this.match,
-        'matched': this.matched,
-        'offset': this.offset,
-        '_more': this._more,
-        '_input': this._input,
-        'conditionStack': this.conditionStack.toList(),
-        'done': this.done
-      };
-    }
+  Object testMatch(Match $match, int $ruleIndex) {
     int $matchCount = $match.group(0)!.length;
     var $lineCount = RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0)!);
     var $line = $lineCount != null ? $lineCount.group(0)! : '';
@@ -780,137 +729,58 @@ break;
       )
     );
 
-
     yy.text += $match[0];
-    match += $match[0];
+    match += $match[0]!;
 //  matches = $match;
     matched += $match[0]!;
 
     yy.leng = yy.text.length as int;
-    if (ranges != null) {
-      yy.loc.range = ParserRange(offset, offset += yy.leng);
-    }
     _more = false;
-    backtrack = false;
     _input = _input.substring($matchCount);
-    var $nextCondition = conditionStack[conditionStack.length - 1];
+    var $nextCondition = _conditionStack.last;
 
-    var $token = LexerPerformAction(yy, $ruleIndex, $nextCondition);
+    var $token = _lexerPerformAction(yy, $ruleIndex, $nextCondition);
 
     if (done == true && _input.isNotEmpty) {
       done = false;
     }
-    try {
-      if ($token != null) {
-        return $token;
-      } else if (this.backtrack) {
-        backup.forEach((k, v) {
-          switch (k) {
-            case 'yy':
-              this.yy = v as ParserValue;
-              break;
-            case 'match':
-              this.match = v;
-              break;
-            case 'matched':
-              this.matched = v as String;
-              break;
-            case 'offset':
-              this.offset = v as int;
-              break;
-            case '_more':
-              this._more = v as bool;
-              break;
-            case '_input':
-              this._input = v as String;
-              break;
-            case 'conditionStack':
-              this.conditionStack = v as List;
-              break;
-            case 'done':
-              this.done = v as bool;
-              break;
-            default:
-              throw UnsupportedError('Unknown $k');
-          }
-        });
-        return false; // rule action called reject() implying the next rule should be tested instead.
-      } else {
-        return false;
-      }
-    } finally { // extra feature
-      if (data['backtrack'] == true) {
-        backup.forEach((k, v) {
-          switch (k) {
-            case 'yy':
-              this.yy = v as ParserValue;
-              break;
-            case 'match':
-              this.match = v;
-              break;
-            case 'matched':
-              this.matched = v as String;
-              break;
-            case 'offset':
-              this.offset = v as int;
-              break;
-            case '_more':
-              this._more = v as bool;
-              break;
-            case '_input':
-              this._input = v as String;
-              break;
-            case 'conditionStack':
-              this.conditionStack = v as List;
-              break;
-            case 'done':
-              this.done = v as bool;
-              break;
-            default:
-              throw UnsupportedError('Unknown $k');
-          }
-        });
-        popState();
-        data['backtrack'] = false;
-      }
+
+    if ($token != null) {
+      return $token;
+    } else {
+      return false;
     }
   }
-  lexerLex() {
+
+  Object lexerLex() {
     var $r = next();
 
-    while (($r == null || $r == false) && !done) {
+    while ((/*$r == null ||*/ $r == false) && !done) {
       $r = next();
     }
 
     return $r;
   }
 
-  begin($condition) {
-    conditionStack.add($condition);
+  void begin(String $condition) {
+    _conditionStack.add($condition);
   }
 
-  popState() {
-    var n = conditionStack.length - 1;
-    if (n > 0) {
-      return conditionStack.removeLast();
+  String popState() {
+    if (_conditionStack.length > 1) {
+      return _conditionStack.removeLast();
     }
-    return conditionStack[0];
+    return _conditionStack[0];
   }
 
-  void pushState($condition) {
-    this.begin($condition);
+  void pushState(String $condition) {
+    begin($condition);
   }
 
-  currentRules() {
-    if (this.conditionStack.length > 0 && this.conditionStack[this.conditionStack.length - 1] != null) {
-      return this.conditions[this.conditionStack[this.conditionStack.length - 1]]!.rules;
-    } else {
-      return this.conditions["INITIAL"]!.rules;
-    }
-  }
+  List<int> currentRules() => _conditions[_conditionStack.last]!.rules;
 
   // ignore: avoid_init_to_null
-  LexerPerformAction(yy, int $avoidingNameCollisions, [$YY_START = null]) {
+  dynamic _lexerPerformAction(yy, int $avoidingNameCollisions, String $YY_START) {
     
 ;
 switch($avoidingNameCollisions) {

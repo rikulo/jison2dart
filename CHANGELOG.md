@@ -1,3 +1,7 @@
+# 0.5.2
+
+* Remove the support of the `backtrack_lexer`, `flex` and `ranges` options
+
 # 0.5.0
 
 * `JisonParser` adds two methods: `getParserErrorMessage` and `getLexerErrorMessage`. They're used for providing customized messasges, such as I18N.

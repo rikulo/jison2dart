@@ -26,7 +26,7 @@ S cast<S>(value) => value as S;
 /// and [getParseErrorMessage], you extend from [JisonParser] and then
 /// specify your class with `@extends`.
 abstract class JisonParser {
-  dynamic parse(String input);
+  Object parse(String input);
 
   /// Retrieves the error message for a parser error.
   String getParserErrorMessage(int lineNo,

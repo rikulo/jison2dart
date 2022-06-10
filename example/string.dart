@@ -1,4 +1,4 @@
-//@@LIBRARY@@
+
 // Jison2dart generated parser
 
 // ignore_for_file: directive_after_declaration
@@ -8,9 +8,9 @@
 
 import 'package:jison2dart/jison2dart.dart';
 
-//@@CODE@@
 
-class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
+
+class StringParser extends DefaultJisonParser {
   Map symbols = {};
   Map terminals = {};
   Map productions = {};
@@ -24,20 +24,160 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
   static const int accept = 3;
   //late InjectMatch getMatch;
 
-  //@@PARSER_MODULE_INJECTION@@
+  
 
   //void trace() {
   //}
 
-  /*@@CLASS@@*/() {
+  StringParser() {
     //Setup Parser
-    //@@PARSER_INJECT@@
+    
+var 			$symbol0 = ParserSymbol('accept', 0);
+var 			$symbol1 = ParserSymbol('end', 1);
+var 			$symbol2 = ParserSymbol('error', 2);
+var 			$symbol3 = ParserSymbol('expressions', 3);
+var 			$symbol4 = ParserSymbol('e', 4);
+var 			$symbol5 = ParserSymbol('EOF', 5);
+var 			$symbol6 = ParserSymbol('STRING', 6);
+var 			$symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
+			symbols[0] = $symbol0;
+			symbols['accept'] = $symbol0;
+			symbols[1] = $symbol1;
+			symbols['end'] = $symbol1;
+			symbols[2] = $symbol2;
+			symbols['error'] = $symbol2;
+			symbols[3] = $symbol3;
+			symbols['expressions'] = $symbol3;
+			symbols[4] = $symbol4;
+			symbols['e'] = $symbol4;
+			symbols[5] = $symbol5;
+			symbols['EOF'] = $symbol5;
+			symbols[6] = $symbol6;
+			symbols['STRING'] = $symbol6;
+			symbols[7] = $symbol7;
+			symbols['NEWLINE_IN_STRING'] = $symbol7;
+
+			terminals = {
+					2: $symbol2,
+					5: $symbol5,
+					6: $symbol6,
+					7: $symbol7
+				};
+
+var			$table0 = ParserState(0);
+var			$table1 = ParserState(1);
+var			$table2 = ParserState(2);
+var			$table3 = ParserState(3);
+var			$table4 = ParserState(4);
+var			$table5 = ParserState(5);
+
+var			$tableDefinition0 = {
+				
+					3: ParserAction(none, $table1),
+					4: ParserAction(none, $table2),
+					6: ParserAction(shift, $table3)
+				};
+
+var			$tableDefinition1 = {
+				
+					1: ParserAction(accept)
+				};
+
+var			$tableDefinition2 = {
+				
+					5: ParserAction(shift, $table4),
+					7: ParserAction(shift, $table5)
+				};
+
+var			$tableDefinition3 = {
+				
+					5: ParserAction(reduce, $table2),
+					7: ParserAction(reduce, $table2)
+				};
+
+var			$tableDefinition4 = {
+				
+					1: ParserAction(reduce, $table1)
+				};
+
+var			$tableDefinition5 = {
+				
+					5: ParserAction(reduce, $table3),
+					7: ParserAction(reduce, $table3)
+				};
+
+			$table0.setActions($tableDefinition0);
+			$table1.setActions($tableDefinition1);
+			$table2.setActions($tableDefinition2);
+			$table3.setActions($tableDefinition3);
+			$table4.setActions($tableDefinition4);
+			$table5.setActions($tableDefinition5);
+
+			table = {
+				
+					0: $table0,
+					1: $table1,
+					2: $table2,
+					3: $table3,
+					4: $table4,
+					5: $table5
+				};
+
+			defaultActions = {
+				
+					4: ParserAction(reduce, $table1)
+				};
+
+			productions = {
+				
+					0: ParserProduction($symbol0),
+					1: ParserProduction($symbol3,2),
+					2: ParserProduction($symbol4,1),
+					3: ParserProduction($symbol4,2)
+				};
+
+
+
 
     //Setup Lexer
-    //@@LEXER_INJECT@@
+    
+			_rules = {
+				
+					0: RegExp(r'''^(?:\s+)''', caseSensitive: true),
+					1: RegExp(r'''^(?:\[\]                  begin\(string\);\n<string>\[\^\n*)''', caseSensitive: true),
+					2: RegExp(r'''^(?:[\n])''', caseSensitive: true),
+					3: RegExp(r'''^(?:$)''', caseSensitive: true),
+					4: RegExp(r'''^(?:["])''', caseSensitive: true),
+					5: RegExp(r'''^(?:[.\n]+)''', caseSensitive: true),
+					6: RegExp(r'''^(?:$)''', caseSensitive: true),
+					7: RegExp(r'''^(?:.)''', caseSensitive: true)
+				};
+
+			_conditions = {
+				
+					'string': LexerConditions([ 2,3,4], false),
+					'INITIAL': LexerConditions([ 0,1,5,6,7], true)
+				};
+
+
   }
   parserPerformAction($thisS, $yy, int $yystate, $s, $o) {
-    //@@ParserPerformActionInjection@@
+    
+/* this == yyval */
+
+
+switch ($yystate) {
+case 1:
+ return $s[$o-1]; 
+
+case 2:
+$thisS.$ = $s[$o];
+break;
+case 3:
+$thisS.$ = $s[$o-1] + '\n';
+break;
+}
+
   }
 
   ParserSymbol parserLex() {
@@ -377,6 +517,26 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
 
   // ignore: avoid_init_to_null
   dynamic _lexerPerformAction(yy, int $avoidingNameCollisions, String $YY_START) {
-    //@@LexerPerformActionInjection@@
+    
+;
+switch($avoidingNameCollisions) {
+case 0:/* skip whitespace */
+break;
+case 1:return "STRING";
+
+case 2:return "NEWLINE_IN_STRING";
+
+case 3:return "EOF_IN_STRING";
+
+case 4:popState();
+break;
+case 5:/* skip over text not in quotes */
+break;
+case 6:return "EOF";
+
+case 7:return 'INVALID';
+
+}
+
   }
 }
