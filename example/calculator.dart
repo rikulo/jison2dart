@@ -471,7 +471,7 @@ case 10:return 'INVALID';
     var $firstAction = ParserAction(0, _table[0] as ParserState);
     var $firstCachedAction = ParserCachedAction($firstAction);
     var $stack = [$firstCachedAction];
-    var $vstack = <dynamic>[null]; //its type depends on action
+    var $vstack = <dynamic>[null]; //its type depends on parser's action
     var $yy;
     ParserValue? $_yy;
     var $recovering = 0;
