@@ -11,157 +11,151 @@ import 'package:jison2dart/jison2dart.dart';
 
 
 class StringParser extends DefaultJisonParser {
-  Map symbols = {};
-  Map terminals = {};
-  Map productions = {};
-  Map table = {};
-  Map defaultActions = {};
-  //String version = '0.4.17';
-  //bool debug = false;
+  final Map<dynamic, ParserSymbol> _symbols;
+  final Map<int, ParserSymbol> _terminals;
+  final Map<int, ParserProduction> _productions;
+  final Map<int, ParserState> _table;
+  final Map<int, ParserAction> _defaultActions;
+
+  //const version = '0.4.17';
+
   static const int none = 0;
   static const int shift = 1;
   static const int reduce = 2;
   static const int accept = 3;
-  //late InjectMatch getMatch;
 
   
 
   //void trace() {
   //}
 
-  StringParser() {
+  //Setup Lexer
+  
+	final _rules = <int, dynamic>{
+		0: RegExp(r'''^(?:\s+)''', caseSensitive: true),
+		1: RegExp(r'''^(?:\[\]                  begin\(string\);\n<string>\[\^\n*)''', caseSensitive: true),
+		2: RegExp(r'''^(?:[\n])''', caseSensitive: true),
+		3: RegExp(r'''^(?:$)''', caseSensitive: true),
+		4: RegExp(r'''^(?:["])''', caseSensitive: true),
+		5: RegExp(r'''^(?:[.\n]+)''', caseSensitive: true),
+		6: RegExp(r'''^(?:$)''', caseSensitive: true),
+		7: RegExp(r'''^(?:.)''', caseSensitive: true)
+	};
+
+	final _conditions = {
+		'string': LexerConditions([ 2,3,4], false),
+		'INITIAL': LexerConditions([ 0,1,5,6,7], true)
+	};
+
+
+
+  factory StringParser() {
     //Setup Parser
     
-var 			$symbol0 = ParserSymbol('accept', 0);
-var 			$symbol1 = ParserSymbol('end', 1);
-var 			$symbol2 = ParserSymbol('error', 2);
-var 			$symbol3 = ParserSymbol('expressions', 3);
-var 			$symbol4 = ParserSymbol('e', 4);
-var 			$symbol5 = ParserSymbol('EOF', 5);
-var 			$symbol6 = ParserSymbol('STRING', 6);
-var 			$symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
-			symbols[0] = $symbol0;
-			symbols['accept'] = $symbol0;
-			symbols[1] = $symbol1;
-			symbols['end'] = $symbol1;
-			symbols[2] = $symbol2;
-			symbols['error'] = $symbol2;
-			symbols[3] = $symbol3;
-			symbols['expressions'] = $symbol3;
-			symbols[4] = $symbol4;
-			symbols['e'] = $symbol4;
-			symbols[5] = $symbol5;
-			symbols['EOF'] = $symbol5;
-			symbols[6] = $symbol6;
-			symbols['STRING'] = $symbol6;
-			symbols[7] = $symbol7;
-			symbols['NEWLINE_IN_STRING'] = $symbol7;
+		var $symbol0 = ParserSymbol('accept', 0);
+		var $symbol1 = ParserSymbol('end', 1);
+		var $symbol2 = ParserSymbol('error', 2);
+		var $symbol3 = ParserSymbol('expressions', 3);
+		var $symbol4 = ParserSymbol('e', 4);
+		var $symbol5 = ParserSymbol('EOF', 5);
+		var $symbol6 = ParserSymbol('STRING', 6);
+		var $symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
+		var symbols = {
+			0: $symbol0,
+			'accept': $symbol0,
+			1: $symbol1,
+			'end': $symbol1,
+			2: $symbol2,
+			'error': $symbol2,
+			3: $symbol3,
+			'expressions': $symbol3,
+			4: $symbol4,
+			'e': $symbol4,
+			5: $symbol5,
+			'EOF': $symbol5,
+			6: $symbol6,
+			'STRING': $symbol6,
+			7: $symbol7,
+			'NEWLINE_IN_STRING': $symbol7
+		};
 
-			terminals = {
-					2: $symbol2,
-					5: $symbol5,
-					6: $symbol6,
-					7: $symbol7
-				};
+		var terminals = {
+			2: $symbol2,
+			5: $symbol5,
+			6: $symbol6,
+			7: $symbol7
+		};
 
-var			$table0 = ParserState(0);
-var			$table1 = ParserState(1);
-var			$table2 = ParserState(2);
-var			$table3 = ParserState(3);
-var			$table4 = ParserState(4);
-var			$table5 = ParserState(5);
+		var $table0 = ParserState(0);
+		var $table1 = ParserState(1);
+		var $table2 = ParserState(2);
+		var $table3 = ParserState(3);
+		var $table4 = ParserState(4);
+		var $table5 = ParserState(5);
 
-var			$tableDefinition0 = {
-				
-					3: ParserAction(none, $table1),
-					4: ParserAction(none, $table2),
-					6: ParserAction(shift, $table3)
-				};
+		var $tableDefinition0 = {
+			3: ParserAction(none, $table1),
+			4: ParserAction(none, $table2),
+			6: ParserAction(shift, $table3)
+		};
 
-var			$tableDefinition1 = {
-				
-					1: ParserAction(accept)
-				};
+		var $tableDefinition1 = {
+			1: ParserAction(accept)
+		};
 
-var			$tableDefinition2 = {
-				
-					5: ParserAction(shift, $table4),
-					7: ParserAction(shift, $table5)
-				};
+		var $tableDefinition2 = {
+			5: ParserAction(shift, $table4),
+			7: ParserAction(shift, $table5)
+		};
 
-var			$tableDefinition3 = {
-				
-					5: ParserAction(reduce, $table2),
-					7: ParserAction(reduce, $table2)
-				};
+		var $tableDefinition3 = {
+			5: ParserAction(reduce, $table2),
+			7: ParserAction(reduce, $table2)
+		};
 
-var			$tableDefinition4 = {
-				
-					1: ParserAction(reduce, $table1)
-				};
+		var $tableDefinition4 = {
+			1: ParserAction(reduce, $table1)
+		};
 
-var			$tableDefinition5 = {
-				
-					5: ParserAction(reduce, $table3),
-					7: ParserAction(reduce, $table3)
-				};
+		var $tableDefinition5 = {
+			5: ParserAction(reduce, $table3),
+			7: ParserAction(reduce, $table3)
+		};
 
-			$table0.setActions($tableDefinition0);
-			$table1.setActions($tableDefinition1);
-			$table2.setActions($tableDefinition2);
-			$table3.setActions($tableDefinition3);
-			$table4.setActions($tableDefinition4);
-			$table5.setActions($tableDefinition5);
+		$table0.setActions($tableDefinition0);
+		$table1.setActions($tableDefinition1);
+		$table2.setActions($tableDefinition2);
+		$table3.setActions($tableDefinition3);
+		$table4.setActions($tableDefinition4);
+		$table5.setActions($tableDefinition5);
 
-			table = {
-				
-					0: $table0,
-					1: $table1,
-					2: $table2,
-					3: $table3,
-					4: $table4,
-					5: $table5
-				};
+		var table = {
+			0: $table0,
+			1: $table1,
+			2: $table2,
+			3: $table3,
+			4: $table4,
+			5: $table5
+		};
 
-			defaultActions = {
-				
-					4: ParserAction(reduce, $table1)
-				};
+		var defaultActions = {
+			4: ParserAction(reduce, $table1)
+		};
 
-			productions = {
-				
-					0: ParserProduction($symbol0),
-					1: ParserProduction($symbol3,2),
-					2: ParserProduction($symbol4,1),
-					3: ParserProduction($symbol4,2)
-				};
+		var productions = {
+			0: ParserProduction($symbol0),
+			1: ParserProduction($symbol3,2),
+			2: ParserProduction($symbol4,1),
+			3: ParserProduction($symbol4,2)
+		};
 
 
-
-
-    //Setup Lexer
-    
-			_rules = {
-				
-					0: RegExp(r'''^(?:\s+)''', caseSensitive: true),
-					1: RegExp(r'''^(?:\[\]                  begin\(string\);\n<string>\[\^\n*)''', caseSensitive: true),
-					2: RegExp(r'''^(?:[\n])''', caseSensitive: true),
-					3: RegExp(r'''^(?:$)''', caseSensitive: true),
-					4: RegExp(r'''^(?:["])''', caseSensitive: true),
-					5: RegExp(r'''^(?:[.\n]+)''', caseSensitive: true),
-					6: RegExp(r'''^(?:$)''', caseSensitive: true),
-					7: RegExp(r'''^(?:.)''', caseSensitive: true)
-				};
-
-			_conditions = {
-				
-					'string': LexerConditions([ 2,3,4], false),
-					'INITIAL': LexerConditions([ 0,1,5,6,7], true)
-				};
-
-
+    return StringParser._(symbols, terminals, table, defaultActions, productions);
   }
-  parserPerformAction($thisS, $yy, int $yystate, $s, $o) {
+
+  StringParser._(this._symbols, this._terminals, this._table, this._defaultActions, this._productions);
+
+  dynamic _parserPerformAction(ParserValue $thisS, ParserValue $yy, int $yystate, List $s, int $o) {
     
 /* this == yyval */
 
@@ -180,22 +174,46 @@ break;
 
   }
 
-  ParserSymbol parserLex() {
-    var token = lexerLex(); // $end = 1
+  dynamic _lexerPerformAction(ParserValue yy, int $avoidingNameCollisions, String $YY_START) {
+    
+;
+switch($avoidingNameCollisions) {
+case 0:/* skip whitespace */
+break;
+case 1:return "STRING";
+
+case 2:return "NEWLINE_IN_STRING";
+
+case 3:return "EOF_IN_STRING";
+
+case 4:popState();
+break;
+case 5:/* skip over text not in quotes */
+break;
+case 6:return "EOF";
+
+case 7:return 'INVALID';
+
+}
+
+  }
+
+  ParserSymbol _parserLex() {
+    var token = _lexerLex(); // $end = 1
 
     if (token is num) {
-      final symbol = symbols[token];
+      final symbol = _symbols[token];
       if (symbol != null) {
-        return symbol as ParserSymbol;
+        return symbol;
       }
     }
 
-    return symbols['end'] as ParserSymbol;
+    return _symbols['end']!;
   }
 
   @override
   Object parse(String $input) {
-    var $firstAction = ParserAction(0, table[0] as ParserState);
+    var $firstAction = ParserAction(0, _table[0] as ParserState);
     var $firstCachedAction = ParserCachedAction($firstAction);
     var $stack = [$firstCachedAction];
     var $vstack = <dynamic>[null];
@@ -207,20 +225,20 @@ break;
     String $errStr = '';
     var $preErrorSymbol;
 
-    setInput($input);
+    _setInput($input);
 
     while (true) {
-     // retrieve state number from top of stack
-     var $state = $stack[$stack.length - 1].action!.state;
+      // retrieve state number from top of stack
+      var $state = $stack.last.action!.state;
       // use default actions if available
-      if ($state != null && defaultActions[$state.index] != null) {
-        $action = defaultActions[$state.index];
+      if ($state != null && _defaultActions[$state.index] != null) {
+        $action = _defaultActions[$state.index];
       } else {
-        $symbol ??= parserLex();
+        $symbol ??= _parserLex();
 
         // read action for current state and first input
         if ($state != null && $state.actions[$symbol.index] != null) {
-          //$action = table[$state][$symbol];
+          //$action = _table[$state][$symbol];
           $action = $state.actions[$symbol.index];
         } else {
           $action = null;
@@ -231,15 +249,17 @@ break;
         if ($recovering == 0) {
           // Report error
           var $expected = <String>[];
-          table[$state!.index].actions.forEach(($k, $v) {
-            if (terminals[$k] != null && $k as num > 2) {
-                $expected.add(terminals[$k].name as String);
+          _table[$state!.index]!.actions.forEach(($k, $v) {
+            final terminal = _terminals[$k];
+            if (terminal != null && $k > 2) {
+                $expected.add(terminal.name);
             }
           });
 
+          final terminal = _terminals[$symbol!.index];
           $errStr = getParserErrorMessage(yy.lineNo + 1,
             _input, matched, match, $expected,
-            terminals[$symbol!.index] != null ? terminals[$symbol.index].name : 'NOTHING');
+            terminal != null ? terminal.name : 'NOTHING');
           throw ParserError($errStr,
               match, $state, $symbol, yy.lineNo, yy.loc, $expected);
         }
@@ -268,15 +288,15 @@ break;
 
         case 2:
           // reduce
-          var $len = productions[$action.state.index].len;
+          var $len = _productions[$action.state.index]!.len;
           // perform semantic action
           $_yy = ParserValue();
-          $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - ($len as int)];// default to $S = $1
+          $_yy.$ = $_yy.text = $len == 0 ? null : $vstack[$vstack.length - $len];// default to $S = $1
           // default location, uses first token for firsts, last for lasts
           // ignore: undefined_identifier
 
           yy.yystate = $action.state.index as int;
-          var $r = parserPerformAction($_yy, $yy, $action.state.index, $vstack, $vstack.length - 1);
+          var $r = _parserPerformAction($_yy, $yy, $action.state.index, $vstack, $vstack.length - 1);
 
           if ($r != null) {
             if ($r is ParserValue) return $r.$;
@@ -284,7 +304,7 @@ break;
           }
 
           // pop off stack
-          while ($len as int > 0) {
+          while ($len > 0) {
             $len--;
             $stack.removeLast();
             $vstack.removeLast();
@@ -292,9 +312,9 @@ break;
 
           $vstack.add($_yy.$);
 
-          var $nextSymbol = productions[$action.state.index].symbol;
-          // goto new state = table[STATE][NONTERMINAL]
-          var $nextState = $stack[$stack.length - 1].action!.state!;
+          var $nextSymbol = _productions[$action.state.index]!.symbol;
+          // goto new state = _table[STATE][NONTERMINAL]
+          var $nextState = $stack.last.action!.state!;
           var $nextAction = $nextState.actions[$nextSymbol.index];
 
           $stack.add( ParserCachedAction($nextAction, $nextSymbol));
@@ -318,15 +338,13 @@ break;
   late ParserValue yy;
   var match = '',
     matched = '',
-    _rules = <int, dynamic>{},
-    _conditions = <String, LexerConditions>{},
     done = false,
     _more = false;
   final _conditionStack = <String>[];
   late String _input;
   //late int _offset;
 
-  void setInput(String $input) {
+  void _setInput(String $input) {
     _input = $input;
     _more = done = false;
     matched = match = '';
@@ -408,7 +426,7 @@ break;
       match = '';
     }
 
-    var $rules = currentRules();
+    var $rules = _currentRules();
     int? $index;
     Match? $match;
     var $token;
@@ -431,7 +449,7 @@ break;
     }
 
     if ($match != null) {
-      $token = testMatch($match, $rules[$index!]);
+      $token = _testMatch($match, $rules[$index!]);
       if ($token != false) {
         return $token;
       }
@@ -448,8 +466,8 @@ break;
     }
   }
 
-  // test the lexed token: return FALSE when not a match, otherwise return token
-  Object testMatch(Match $match, int $ruleIndex) {
+  /// test the lexed token: return FALSE when not a match, otherwise return token
+  Object _testMatch(Match $match, int $ruleIndex) {
     int $matchCount = $match.group(0)!.length;
     var $lineCount = RegExp(r'(?:\r\n?|\n).*').firstMatch($match.group(0)!);
     var $line = $lineCount != null ? $lineCount.group(0)! : '';
@@ -488,7 +506,7 @@ break;
     }
   }
 
-  Object lexerLex() {
+  Object _lexerLex() {
     var $r = next();
 
     while ((/*$r == null ||*/ $r == false) && !done) {
@@ -513,30 +531,5 @@ break;
     begin($condition);
   }
 
-  List<int> currentRules() => _conditions[_conditionStack.last]!.rules;
-
-  // ignore: avoid_init_to_null
-  dynamic _lexerPerformAction(yy, int $avoidingNameCollisions, String $YY_START) {
-    
-;
-switch($avoidingNameCollisions) {
-case 0:/* skip whitespace */
-break;
-case 1:return "STRING";
-
-case 2:return "NEWLINE_IN_STRING";
-
-case 3:return "EOF_IN_STRING";
-
-case 4:popState();
-break;
-case 5:/* skip over text not in quotes */
-break;
-case 6:return "EOF";
-
-case 7:return 'INVALID';
-
-}
-
-  }
+  List<int> _currentRules() => _conditions[_conditionStack.last]!.rules;
 }
