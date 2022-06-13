@@ -258,7 +258,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
   }
 
   Object next() {
-    if (done == true) {
+    if (done) {
       return eof;
     }
 
@@ -278,12 +278,14 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
     for (var $i = 0, $j = $rules.length; $i < $j; $i++) {
       Match? $tempMatch;
       final rule = _rules[$rules[$i]];
-      if (rule is InjectFunction) {
-        $tempMatch = cast(rule(this, _input));
-      } else {
-        $tempMatch = (rule as RegExp).firstMatch(_input);
-      }
-      if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0)!.length > $match!.group(0)!.length)) {
+//      if (rule is InjectFunction) {
+//        $tempMatch = cast(rule(this, _input));
+//      } else {
+        $tempMatch = rule!.firstMatch(_input);
+//      }
+      if ($tempMatch != null
+/* flex (pickup lognest):
+      && (match.isEmpty || $tempMatch.group(0)!.length > $match!.group(0)!.length)*/) {
         $match = $tempMatch;
         $index = $i;
         //if (options['flex'] != true) {
@@ -339,7 +341,7 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
 
     var $token = _lexerPerformAction(yy, $ruleIndex, $nextCondition);
 
-    if (done == true && _input.isNotEmpty) {
+    if (done && _input.isNotEmpty) {
       done = false;
     }
 

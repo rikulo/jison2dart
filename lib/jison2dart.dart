@@ -14,8 +14,8 @@ library jison2dart;
 
 import 'dart:math' as math;
 
-typedef Match InjectMatch(String key, String input);
-typedef T InjectFunction<T>(JisonParser self, String input);
+//typedef Match InjectMatch(String key, String input);
+//typedef T InjectFunction<T>(JisonParser self, String input);
 
 S cast<S>(value) => value as S;
 

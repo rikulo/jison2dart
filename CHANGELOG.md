@@ -1,3 +1,7 @@
+# 0.5.6
+
+* Remove `InjectFunction`
+
 # 0.5.5
 
 * Remove the support of the `backtrack_lexer`, `flex` and `ranges` options

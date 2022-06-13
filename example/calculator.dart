@@ -54,7 +54,7 @@ class Calculator extends DefaultJisonParser {
 
   //Setup Lexer
   
-	final _rules = <int, dynamic>{
+	final _rules = <int, RegExp>{
 		0: RegExp(r'''^(?:\s+)''', caseSensitive: true),
 		1: RegExp(r'''^(?:[0-9]+(\.[0-9]+)?\b)''', caseSensitive: true),
 		2: RegExp(r'''^(?:\*)''', caseSensitive: true),
@@ -68,7 +68,7 @@ class Calculator extends DefaultJisonParser {
 		10: RegExp(r'''^(?:.)''', caseSensitive: true)
 	};
 
-	final _conditions = {
+	final _conditions = <String, LexerConditions>{
 		'INITIAL': LexerConditions([ 0,1,2,3,4,5,6,7,8,9,10], true)
 	};
 
@@ -663,7 +663,7 @@ case 10:return 'INVALID';
   }
 
   Object next() {
-    if (done == true) {
+    if (done) {
       return eof;
     }
 
@@ -683,12 +683,14 @@ case 10:return 'INVALID';
     for (var $i = 0, $j = $rules.length; $i < $j; $i++) {
       Match? $tempMatch;
       final rule = _rules[$rules[$i]];
-      if (rule is InjectFunction) {
-        $tempMatch = cast(rule(this, _input));
-      } else {
-        $tempMatch = (rule as RegExp).firstMatch(_input);
-      }
-      if ($tempMatch != null && (match.isEmpty == true || $tempMatch.group(0)!.length > $match!.group(0)!.length)) {
+//      if (rule is InjectFunction) {
+//        $tempMatch = cast(rule(this, _input));
+//      } else {
+        $tempMatch = rule!.firstMatch(_input);
+//      }
+      if ($tempMatch != null
+/* flex (pickup lognest):
+      && (match.isEmpty || $tempMatch.group(0)!.length > $match!.group(0)!.length)*/) {
         $match = $tempMatch;
         $index = $i;
         //if (options['flex'] != true) {
@@ -744,7 +746,7 @@ case 10:return 'INVALID';
 
     var $token = _lexerPerformAction(yy, $ruleIndex, $nextCondition);
 
-    if (done == true && _input.isNotEmpty) {
+    if (done && _input.isNotEmpty) {
       done = false;
     }
 
