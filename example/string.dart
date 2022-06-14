@@ -41,7 +41,7 @@ class StringParser extends DefaultJisonParser {
 		7: RegExp(r'''^(?:.)''', caseSensitive: true)
 	};
 
-	final _conditions = <String, LexerConditions>{
+	static const _conditions = const <String, LexerConditions>{
 		'string': LexerConditions([ 2,3,4], false),
 		'INITIAL': LexerConditions([ 0,1,5,6,7], true)
 	};
@@ -51,15 +51,15 @@ class StringParser extends DefaultJisonParser {
   StringParser() {
     //Setup Parser
     
-		var $symbol0 = ParserSymbol('accept', 0);
-		var $symbol1 = ParserSymbol('end', 1);
-		var $symbol2 = ParserSymbol('error', 2);
-		var $symbol3 = ParserSymbol('expressions', 3);
-		var $symbol4 = ParserSymbol('e', 4);
-		var $symbol5 = ParserSymbol('EOF', 5);
-		var $symbol6 = ParserSymbol('STRING', 6);
-		var $symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
-		_symbols = {
+		const $symbol0 = ParserSymbol('accept', 0);
+		const $symbol1 = ParserSymbol('end', 1);
+		const $symbol2 = ParserSymbol('error', 2);
+		const $symbol3 = ParserSymbol('expressions', 3);
+		const $symbol4 = ParserSymbol('e', 4);
+		const $symbol5 = ParserSymbol('EOF', 5);
+		const $symbol6 = ParserSymbol('STRING', 6);
+		const $symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
+		_symbols = const {
 			0: $symbol0,
 			'accept': $symbol0,
 			1: $symbol1,
@@ -78,7 +78,7 @@ class StringParser extends DefaultJisonParser {
 			'NEWLINE_IN_STRING': $symbol7
 		};
 
-		_terminals = {
+		_terminals = const {
 			2: $symbol2,
 			5: $symbol5,
 			6: $symbol6,
@@ -141,13 +141,12 @@ class StringParser extends DefaultJisonParser {
 			4: ParserAction(reduce, $table1)
 		};
 
-		_productions = {
+		_productions = const {
 			0: ParserProduction($symbol0),
 			1: ParserProduction($symbol3,2),
 			2: ParserProduction($symbol4,1),
 			3: ParserProduction($symbol4,2)
 		};
-
 
   }
 
@@ -336,7 +335,7 @@ case 7:return 'INVALID';
     done = false,
     _more = false;
   final _conditionStack = <String>[];
-  late String _input;
+  String _input = '';
   //late int _offset;
 
   void _setInput(String $input) {

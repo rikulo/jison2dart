@@ -107,42 +107,42 @@ class LexerConditions {
   final List<int> rules;
   final bool inclusive;
 
-  LexerConditions(this.rules, this.inclusive);
+  const LexerConditions(this.rules, this.inclusive);
 }
 
 class ParserProduction {
   final int length;
   final ParserSymbol symbol;
 
-  ParserProduction(this.symbol, [this.length = 0]);
+  const ParserProduction(this.symbol, [this.length = 0]);
 }
 
 class ParserCachedAction {
   final ParserAction? action;
   final ParserSymbol? symbol;
 
-  ParserCachedAction(this.action, [this.symbol]);
+  const ParserCachedAction(this.action, [this.symbol]);
 }
 
 class ParserAction {
-  int action;
-  ParserState? state;
-  String? symbol;
+  final int action;
+  final ParserState? state;
+  final String? symbol;
 
-  ParserAction(this.action, [this.state, this.symbol]);
+  const ParserAction(this.action, [this.state, this.symbol]);
 }
 
 class ParserSymbol {
-  String name;
-  int index = -1;
-  Map symbols = {};
-  Map symbolsByName = {};
+  final String name;
+  final int index;
+  //Map<int, ParserSymbol> symbols = {};
+  //Map<String, ParserSymbol> symbolsByName = {};
 
-  ParserSymbol(this.name, this.index);
+  const ParserSymbol(this.name, this.index);
 
-  void addAction($a) {
-    symbols[$a.index] = symbolsByName[$a.name] = $a;
-  }
+  //void addAction(ParserSymbol $a) {
+  //  symbols[$a.index] = symbolsByName[$a.name] = $a;
+  //}
 }
 
 class ParserError extends Error {

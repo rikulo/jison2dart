@@ -34,7 +34,6 @@ import 'package:jison2dart/jison2dart.dart';
   /*@@CLASS@@*/() {
     //Setup Parser
     //@@PARSER_INJECT@@
-
   }
 
   dynamic _parserPerformAction(ParserValue $thisS, ParserValue $yy, int $yystate, List $s, int $o) {
@@ -187,7 +186,7 @@ import 'package:jison2dart/jison2dart.dart';
     done = false,
     _more = false;
   final _conditionStack = <String>[];
-  late String _input;
+  String _input = '';
   //late int _offset;
 
   void _setInput(String $input) {

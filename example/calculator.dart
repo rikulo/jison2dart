@@ -68,7 +68,7 @@ class Calculator extends DefaultJisonParser {
 		10: RegExp(r'''^(?:.)''', caseSensitive: true)
 	};
 
-	final _conditions = <String, LexerConditions>{
+	static const _conditions = const <String, LexerConditions>{
 		'INITIAL': LexerConditions([ 0,1,2,3,4,5,6,7,8,9,10], true)
 	};
 
@@ -77,21 +77,21 @@ class Calculator extends DefaultJisonParser {
   Calculator() {
     //Setup Parser
     
-		var $symbol0 = ParserSymbol('accept', 0);
-		var $symbol1 = ParserSymbol('end', 1);
-		var $symbol2 = ParserSymbol('error', 2);
-		var $symbol3 = ParserSymbol('expressions', 3);
-		var $symbol4 = ParserSymbol('e', 4);
-		var $symbol5 = ParserSymbol('EOF', 5);
-		var $symbol6 = ParserSymbol('+', 6);
-		var $symbol7 = ParserSymbol('-', 7);
-		var $symbol8 = ParserSymbol('*', 8);
-		var $symbol9 = ParserSymbol('/', 9);
-		var $symbol10 = ParserSymbol('^', 10);
-		var $symbol11 = ParserSymbol('(', 11);
-		var $symbol12 = ParserSymbol(')', 12);
-		var $symbol13 = ParserSymbol('NUMBER', 13);
-		_symbols = {
+		const $symbol0 = ParserSymbol('accept', 0);
+		const $symbol1 = ParserSymbol('end', 1);
+		const $symbol2 = ParserSymbol('error', 2);
+		const $symbol3 = ParserSymbol('expressions', 3);
+		const $symbol4 = ParserSymbol('e', 4);
+		const $symbol5 = ParserSymbol('EOF', 5);
+		const $symbol6 = ParserSymbol('+', 6);
+		const $symbol7 = ParserSymbol('-', 7);
+		const $symbol8 = ParserSymbol('*', 8);
+		const $symbol9 = ParserSymbol('/', 9);
+		const $symbol10 = ParserSymbol('^', 10);
+		const $symbol11 = ParserSymbol('(', 11);
+		const $symbol12 = ParserSymbol(')', 12);
+		const $symbol13 = ParserSymbol('NUMBER', 13);
+		_symbols = const {
 			0: $symbol0,
 			'accept': $symbol0,
 			1: $symbol1,
@@ -122,7 +122,7 @@ class Calculator extends DefaultJisonParser {
 			'NUMBER': $symbol13
 		};
 
-		_terminals = {
+		_terminals = const {
 			2: $symbol2,
 			5: $symbol5,
 			6: $symbol6,
@@ -367,7 +367,7 @@ class Calculator extends DefaultJisonParser {
 			6: ParserAction(reduce, $table1)
 		};
 
-		_productions = {
+		_productions = const {
 			0: ParserProduction($symbol0),
 			1: ParserProduction($symbol3,2),
 			2: ParserProduction($symbol4,3),
@@ -379,7 +379,6 @@ class Calculator extends DefaultJisonParser {
 			8: ParserProduction($symbol4,3),
 			9: ParserProduction($symbol4,1)
 		};
-
 
   }
 
@@ -592,7 +591,7 @@ case 10:return 'INVALID';
     done = false,
     _more = false;
   final _conditionStack = <String>[];
-  late String _input;
+  String _input = '';
   //late int _offset;
 
   void _setInput(String $input) {
