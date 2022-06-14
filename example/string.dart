@@ -10,11 +10,11 @@ import 'package:jison2dart/jison2dart.dart';
 
 
 class StringParser extends DefaultJisonParser {
-  final Map<dynamic, ParserSymbol> _symbols;
-  final Map<int, ParserSymbol> _terminals;
-  final Map<int, ParserProduction> _productions;
-  final Map<int, ParserState> _table;
-  final Map<int, ParserAction> _defaultActions;
+  late final Map<dynamic, ParserSymbol> _symbols;
+  late final Map<int, ParserSymbol> _terminals;
+  late final Map<int, ParserProduction> _productions;
+  late final Map<int, ParserState> _table;
+  late final Map<int, ParserAction> _defaultActions;
 
   //const version = '0.4.17';
 
@@ -48,7 +48,7 @@ class StringParser extends DefaultJisonParser {
 
 
 
-  factory StringParser() {
+  StringParser() {
     //Setup Parser
     
 		var $symbol0 = ParserSymbol('accept', 0);
@@ -59,7 +59,7 @@ class StringParser extends DefaultJisonParser {
 		var $symbol5 = ParserSymbol('EOF', 5);
 		var $symbol6 = ParserSymbol('STRING', 6);
 		var $symbol7 = ParserSymbol('NEWLINE_IN_STRING', 7);
-		var symbols = {
+		_symbols = {
 			0: $symbol0,
 			'accept': $symbol0,
 			1: $symbol1,
@@ -78,7 +78,7 @@ class StringParser extends DefaultJisonParser {
 			'NEWLINE_IN_STRING': $symbol7
 		};
 
-		var terminals = {
+		_terminals = {
 			2: $symbol2,
 			5: $symbol5,
 			6: $symbol6,
@@ -128,7 +128,7 @@ class StringParser extends DefaultJisonParser {
 		$table4.setActions($tableDefinition4);
 		$table5.setActions($tableDefinition5);
 
-		var table = {
+		_table = {
 			0: $table0,
 			1: $table1,
 			2: $table2,
@@ -137,11 +137,11 @@ class StringParser extends DefaultJisonParser {
 			5: $table5
 		};
 
-		var defaultActions = {
+		_defaultActions = {
 			4: ParserAction(reduce, $table1)
 		};
 
-		var productions = {
+		_productions = {
 			0: ParserProduction($symbol0),
 			1: ParserProduction($symbol3,2),
 			2: ParserProduction($symbol4,1),
@@ -149,10 +149,7 @@ class StringParser extends DefaultJisonParser {
 		};
 
 
-    return StringParser._(symbols, terminals, table, defaultActions, productions);
   }
-
-  StringParser._(this._symbols, this._terminals, this._table, this._defaultActions, this._productions);
 
   dynamic _parserPerformAction(ParserValue $thisS, ParserValue $yy, int $yystate, List $s, int $o) {
     

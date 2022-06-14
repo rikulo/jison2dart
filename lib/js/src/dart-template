@@ -9,12 +9,12 @@ import 'package:jison2dart/jison2dart.dart';
 
 //@@CODE@@
 
-class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
-  final Map<dynamic, ParserSymbol> _symbols;
-  final Map<int, ParserSymbol> _terminals;
-  final Map<int, ParserProduction> _productions;
-  final Map<int, ParserState> _table;
-  final Map<int, ParserAction> _defaultActions;
+/*@@ABSTRACT@@*/class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
+  late final Map<dynamic, ParserSymbol> _symbols;
+  late final Map<int, ParserSymbol> _terminals;
+  late final Map<int, ParserProduction> _productions;
+  late final Map<int, ParserState> _table;
+  late final Map<int, ParserAction> _defaultActions;
 
   //const version = '0.4.17';
 
@@ -31,14 +31,11 @@ class /*@@CLASS@@*/ extends /*@@EXTENDS@@*/ {
   //Setup Lexer
   //@@LEXER_INJECT@@
 
-  factory /*@@CLASS@@*/() {
+  /*@@CLASS@@*/() {
     //Setup Parser
     //@@PARSER_INJECT@@
 
-    return /*@@CLASS@@*/._(symbols, terminals, table, defaultActions, productions);
   }
-
-  /*@@CLASS@@*/._(this._symbols, this._terminals, this._table, this._defaultActions, this._productions);
 
   dynamic _parserPerformAction(ParserValue $thisS, ParserValue $yy, int $yystate, List $s, int $o) {
     //@@ParserPerformActionInjection@@

@@ -61,6 +61,12 @@ Optional. Specfies the name of the Dart pasrer.
 %class CalcParser
 ```
 
+If you'd like to override it, say, for different platforms, you can specify `abstract` too:
+
+```
+%class abstract ParserBase
+```
+
 ### `%extends`
 
 If you'd like to extend from your custom class, you can specify it as follows:

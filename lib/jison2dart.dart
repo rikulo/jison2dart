@@ -23,8 +23,15 @@ S cast<S>(value) => value as S;
 /// By default, [DefaultJisonParser] is used.
 /// 
 /// If you prefer to provide your own implementation of [getParseErrorMessage]
-/// and [getParseErrorMessage], you extend from [JisonParser] and then
-/// specify your class with `@extends`.
+/// and [getParseErrorMessage], you extend from [JisonParser] by specifying
+/// `@extends YourClass`.
+/// 
+/// If you'd like to extend from [JisonParser], you have to do:
+/// 
+///     %class abstract YourAbstractPaser
+///     %extends JisonPaser
+/// 
+/// Then, you have to implement [getParseErrorMessage] and [getParseErrorMessage].
 abstract class JisonParser {
   Object parse(String input);
 
@@ -37,22 +44,24 @@ abstract class JisonParser {
       String input, String matched, String match);
 }
 
-/// The default base class for the generated parser.
-/// It extends [JisonParser] to generate the error message.
-abstract class DefaultJisonParser extends JisonParser {
-  @override
+/// A mixin providing the default implementation of [getParserErrorMessage]
+/// and [getLexerErrorMessage] for [JisonPaser].
+/// Example: [DefaultJisonParser].
+mixin JisonParserMixin {
   String getParserErrorMessage(int lineNo,
       String input, String matched, String match,
       List<String> expected, String unexpected)
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
 
-  @override
   String getLexerErrorMessage(int lineNo,
       String input, String matched, String match,)
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nUnrecognized text.';
-  //reject:
-  // 'You can only invoke reject() when the lexer'
-  // 'is of the backtracking persuasion (options.backtrack_lexer = true)'
+}
+
+/// The default base class for the generated parser.
+/// It extends [JisonParser] to generate the error message.
+abstract class DefaultJisonParser extends JisonParser
+with JisonParserMixin {
 }
 
 class ParserLocation {

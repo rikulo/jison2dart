@@ -34,11 +34,11 @@ void main() {
 }
 
 class Calculator extends DefaultJisonParser {
-  final Map<dynamic, ParserSymbol> _symbols;
-  final Map<int, ParserSymbol> _terminals;
-  final Map<int, ParserProduction> _productions;
-  final Map<int, ParserState> _table;
-  final Map<int, ParserAction> _defaultActions;
+  late final Map<dynamic, ParserSymbol> _symbols;
+  late final Map<int, ParserSymbol> _terminals;
+  late final Map<int, ParserProduction> _productions;
+  late final Map<int, ParserState> _table;
+  late final Map<int, ParserAction> _defaultActions;
 
   //const version = '0.4.17';
 
@@ -74,7 +74,7 @@ class Calculator extends DefaultJisonParser {
 
 
 
-  factory Calculator() {
+  Calculator() {
     //Setup Parser
     
 		var $symbol0 = ParserSymbol('accept', 0);
@@ -91,7 +91,7 @@ class Calculator extends DefaultJisonParser {
 		var $symbol11 = ParserSymbol('(', 11);
 		var $symbol12 = ParserSymbol(')', 12);
 		var $symbol13 = ParserSymbol('NUMBER', 13);
-		var symbols = {
+		_symbols = {
 			0: $symbol0,
 			'accept': $symbol0,
 			1: $symbol1,
@@ -122,7 +122,7 @@ class Calculator extends DefaultJisonParser {
 			'NUMBER': $symbol13
 		};
 
-		var terminals = {
+		_terminals = {
 			2: $symbol2,
 			5: $symbol5,
 			6: $symbol6,
@@ -340,7 +340,7 @@ class Calculator extends DefaultJisonParser {
 		$table18.setActions($tableDefinition18);
 		$table19.setActions($tableDefinition19);
 
-		var table = {
+		_table = {
 			0: $table0,
 			1: $table1,
 			2: $table2,
@@ -363,11 +363,11 @@ class Calculator extends DefaultJisonParser {
 			19: $table19
 		};
 
-		var defaultActions = {
+		_defaultActions = {
 			6: ParserAction(reduce, $table1)
 		};
 
-		var productions = {
+		_productions = {
 			0: ParserProduction($symbol0),
 			1: ParserProduction($symbol3,2),
 			2: ParserProduction($symbol4,3),
@@ -381,10 +381,7 @@ class Calculator extends DefaultJisonParser {
 		};
 
 
-    return Calculator._(symbols, terminals, table, defaultActions, productions);
   }
-
-  Calculator._(this._symbols, this._terminals, this._table, this._defaultActions, this._productions);
 
   dynamic _parserPerformAction(ParserValue $thisS, ParserValue $yy, int $yystate, List $s, int $o) {
     
