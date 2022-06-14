@@ -28,8 +28,8 @@ S cast<S>(value) => value as S;
 /// 
 /// If you'd like to extend from [JisonParser], you have to do:
 /// 
-///     %class abstract YourAbstractPaser
-///     %extends JisonPaser
+///     %class abstract YourAbstractParser
+///     %extends JisonParser
 /// 
 /// Then, you have to implement [getParseErrorMessage] and [getParseErrorMessage].
 abstract class JisonParser {
@@ -45,7 +45,7 @@ abstract class JisonParser {
 }
 
 /// A mixin providing the default implementation of [getParserErrorMessage]
-/// and [getLexerErrorMessage] for [JisonPaser].
+/// and [getLexerErrorMessage] for [JisonParser].
 /// Example: [DefaultJisonParser].
 mixin JisonParserMixin {
   String getParserErrorMessage(int lineNo,
@@ -174,7 +174,7 @@ class LexerError extends Error {
 
 class ParserState {
   final int index;
-  Map<int, ParserAction> actions = {};
+  Map<int, ParserAction> actions = const {};
 
   ParserState(this.index);
 
@@ -183,12 +183,12 @@ class ParserState {
   }
 }
 
-class ParserRange {
-  int x;
-  int y;
-
-  ParserRange(this.x, this.y);
-}
+//class ParserRange {
+//  int x;
+//  int y;
+//
+//  ParserRange(this.x, this.y);
+//}
 
 class ShowPosition {
   final String input, matched, match;

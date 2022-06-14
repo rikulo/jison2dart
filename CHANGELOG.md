@@ -1,8 +1,8 @@
-# 0.5.6
+# 0.5.7
 
 * `%class` supports `abstract`. Example, `%class abstract YourClass`
 * `JisonParserMixin` added.
-* Remove `InjectFunction`
+* Remove `InjectFunction` and `ParserRange`
 
 # 0.5.5
 
