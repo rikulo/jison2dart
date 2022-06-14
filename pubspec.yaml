@@ -1,7 +1,6 @@
 name: jison2dart
-version: 0.5.5
-description: > 
-  Generate Dart parsers using Jison based on Bison parser generator
+version: 0.5.6
+description: Generate Dart parsers using Jison (Bison in JavaScript)
 homepage: https://github.com/rikulo/jison2dart
 
 dependencies:
