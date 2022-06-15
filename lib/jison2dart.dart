@@ -37,21 +37,27 @@ abstract class JisonParser {
 
   /// Retrieves the error message for a parser error.
   /// 
+  /// - [lineNo] which line the error occurs. It starts from 0.
+  /// - [position] Which position the error occurs. It starts from 0.
+  /// Note: `\n` is also counted.
   /// - [input] the substring that the error was detected.
   /// - [matched] the substring that was parsed successfully.
-  ///   It includes [match].
+  ///   It includes [match]. So, *past* is `matched - match`.
   /// - [match] the latest matched token.
-  String getParserErrorMessage(int lineNo,
+  String getParserErrorMessage(int lineNo, int position,
       String input, String matched, String match,
       List<String> expected, String unexpected);
   /// Retrieves the error message for a lexer error.
   /// 
+  /// - [lineNo] which line the error occurs. It starts from 0.
+  /// - [position] Which position the error occurs. It starts from 0.
+  /// Note: `\n` is also counted.
   /// - [input] the substring that the error was detected.
   /// - [matched] the substring that was parsed successfully.
-  ///   It includes [match].
+  ///   It includes [match]. So, *past* is `matched - match`.
   /// - [match] the latest matched token.
   /// Currently, it is always empty since we don't support *flex* option.
-  String getLexerErrorMessage(int lineNo,
+  String getLexerErrorMessage(int lineNo, int position,
       String input, String matched, String match);
 }
 
@@ -59,12 +65,12 @@ abstract class JisonParser {
 /// and [getLexerErrorMessage] for [JisonParser].
 /// Example: [DefaultJisonParser].
 mixin JisonParserMixin {
-  String getParserErrorMessage(int lineNo,
+  String getParserErrorMessage(int lineNo, int position,
       String input, String matched, String match,
       List<String> expected, String unexpected)
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
 
-  String getLexerErrorMessage(int lineNo,
+  String getLexerErrorMessage(int lineNo, int position,
       String input, String matched, String match)
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nUnrecognized text.';
 }
@@ -164,10 +170,14 @@ class ParserError extends Error {
   final ParserState state;
   final ParserSymbol symbol;
   final int lineNo;
+  /// The position of the error.
+  /// Note: `\n` is also counted.
+  final int position;
   final ParserLocation loc;
   final List<String> expected;
 
-  ParserError(this.message, this.text, this.state, this.symbol, this.lineNo, this.loc, this.expected);
+  ParserError(this.message, this.text, this.state, this.symbol,
+      this.lineNo, this.position, this.loc, this.expected);
 
   @override
   String toString() => message;
@@ -176,8 +186,11 @@ class ParserError extends Error {
 class LexerError extends Error {
   final String message;
   final int lineNo;
+  /// The position of the error.
+  /// Note: `\n` is also counted.
+  final int position;
 
-  LexerError(this.message, this.lineNo);
+  LexerError(this.message, this.lineNo, this.position);
 
   @override
   String toString() => message;

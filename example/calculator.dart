@@ -507,12 +507,13 @@ case 10:return 'INVALID';
             }
           });
 
-          final terminal = _terminals[$symbol!.index];
-          $errStr = getParserErrorMessage(yy.lineNo + 1,
+          final terminal = _terminals[$symbol!.index],
+            pos = matched.length - match.length;
+          $errStr = getParserErrorMessage(yy.lineNo, pos,
             _input, matched, match, $expected,
             terminal != null ? terminal.name : 'NOTHING');
           throw ParserError($errStr,
-              match, $state, $symbol, yy.lineNo, yy.loc, $expected);
+              match, $state, $symbol, yy.lineNo, pos, yy.loc, $expected);
         }
       }
 
@@ -707,9 +708,10 @@ case 10:return 'INVALID';
     if (_input.isEmpty) {
       return eof;
     } else {
+      final pos = matched.length - match.length;
       throw LexerError(
-        getLexerErrorMessage(yy.lineNo + 1, _input, matched, match),
-          yy.lineNo);
+        getLexerErrorMessage(yy.lineNo, pos, _input, matched, match),
+          yy.lineNo, pos);
     }
   }
 

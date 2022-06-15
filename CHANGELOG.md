@@ -1,3 +1,7 @@
+# 0.6.0
+
+* To indicate where the error occurs, `position` is added to `LexerError`, `ParserError`, `getLexerErrorMessage` and `getParserErrorMessage`.
+
 # 0.5.7
 
 * `%class` supports `abstract`. Example, `%class abstract YourClass`
