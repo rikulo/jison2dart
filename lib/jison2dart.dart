@@ -17,7 +17,7 @@ import 'dart:math' as math;
 //typedef Match InjectMatch(String key, String input);
 //typedef T InjectFunction<T>(JisonParser self, String input);
 
-S cast<S>(value) => value as S;
+//S cast<S>(value) => value as S;
 
 /// The base class of the parser.
 /// By default, [DefaultJisonParser] is used.
@@ -36,10 +36,21 @@ abstract class JisonParser {
   Object parse(String input);
 
   /// Retrieves the error message for a parser error.
+  /// 
+  /// - [input] the substring that the error was detected.
+  /// - [matched] the substring that was parsed successfully.
+  ///   It includes [match].
+  /// - [match] the latest matched token.
   String getParserErrorMessage(int lineNo,
       String input, String matched, String match,
       List<String> expected, String unexpected);
   /// Retrieves the error message for a lexer error.
+  /// 
+  /// - [input] the substring that the error was detected.
+  /// - [matched] the substring that was parsed successfully.
+  ///   It includes [match].
+  /// - [match] the latest matched token.
+  /// Currently, it is always empty since we don't support *flex* option.
   String getLexerErrorMessage(int lineNo,
       String input, String matched, String match);
 }
@@ -54,7 +65,7 @@ mixin JisonParserMixin {
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nExpecting \'${expected.join('\', \'')}\', got \'$unexpected\'';
 
   String getLexerErrorMessage(int lineNo,
-      String input, String matched, String match,)
+      String input, String matched, String match)
   => 'Line $lineNo:\n${ShowPosition(input, matched, match).show()}\nUnrecognized text.';
 }
 

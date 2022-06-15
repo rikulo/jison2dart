@@ -680,7 +680,7 @@ case 10:return 'INVALID';
       Match? $tempMatch;
       final rule = _rules[$rules[$i]];
 //      if (rule is InjectFunction) {
-//        $tempMatch = cast(rule(this, _input));
+//        $tempMatch = rule(this, _input);
 //      } else {
         $tempMatch = rule!.firstMatch(_input);
 //      }
