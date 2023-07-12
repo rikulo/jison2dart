@@ -1,3 +1,7 @@
+# 0.6.1
+
+* `SyntaxError` introduced as the common interface of `LexerError` and `ParserError`.
+
 # 0.6.0
 
 * To indicate where the error occurs, `position` is added to `LexerError`, `ParserError`, `getLexerErrorMessage` and `getParserErrorMessage`.

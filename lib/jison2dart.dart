@@ -162,17 +162,28 @@ class ParserSymbol {
   //}
 }
 
-class ParserError extends Error {
+/// An syntax error.
+abstract class SyntaxError extends Error {
   /// The error message.
+  String get message;
+  /// The position of the error.
+  /// Note: `\n` is also counted.
+  int get position;
+  int get lineNo;
+}
+
+/// A parser error
+class ParserError extends SyntaxError {
+  @override
   final String message;
+  @override
+  final int position;
+  @override
+  final int lineNo;
   /// The source text causing the error.
   final String text;
   final ParserState state;
   final ParserSymbol symbol;
-  final int lineNo;
-  /// The position of the error.
-  /// Note: `\n` is also counted.
-  final int position;
   final ParserLocation loc;
   final List<String> expected;
 
@@ -183,12 +194,13 @@ class ParserError extends Error {
   String toString() => message;
 }
 
-class LexerError extends Error {
+class LexerError extends SyntaxError {
+  @override
   final String message;
-  final int lineNo;
-  /// The position of the error.
-  /// Note: `\n` is also counted.
+  @override
   final int position;
+  @override
+  final int lineNo;
 
   LexerError(this.message, this.lineNo, this.position);
 
