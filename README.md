@@ -77,6 +77,14 @@ If you'd like to extend from your custom class, you can specify it as follows:
 
 Note: Your implementation must implement `JisonParser`, or extends `DefaultJisonParser`.
 
+### `%case-sensitive`
+
+By default, the lexer is case senstive. You can turn off as follows:
+
+```
+%case-sensitive false
+```
+
 ### The prologue: `%{` and `%}`
 
 Optional. If you'd like to import other libraries or embed Dart codes, you can put the code between `%{` and `%}`.

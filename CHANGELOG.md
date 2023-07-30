@@ -1,3 +1,8 @@
+# 0.7.0
+
+* Support `%case-sensitive` directive
+    * `$case-sensitive false`
+
 # 0.6.1
 
 * `SyntaxError` introduced as the common interface of `LexerError` and `ParserError`.
